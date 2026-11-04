@@ -17,3 +17,7 @@ models/
 *.safetensors
 *.bin
 *.gguf
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
