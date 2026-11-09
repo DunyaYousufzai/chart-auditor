@@ -80,6 +80,9 @@ def fmt_number(v, dec=None):
 _NUM = re.compile(r"[-+−]?\d[\d,\s]*\.?\d*(?:[eE][-+]?\d+)?|[-+−]?\.\d+")
 
 
+_PURE_NUM = re.compile(r"[$€£]?\s*[-+−]?(\d[\d,\s]*\.?\d*|\.\d+)([eE][-+]?\d+)?\s*%?")
+
+
 def parse_number(text):
     """'82.4%' -> 82.4, '1,234' -> 1234, '$5.2' -> 5.2, '—' -> None."""
     if text is None:
@@ -146,8 +149,10 @@ def parse_model_output(text):
         return None
 
     def numeric_share(row):
+        # a cell counts as a number only if it is all number ("82.4%", "1,234", "$5"),
+        # so labels like "CIFAR-10" or "GPT-2" in a header are not mistaken for data
         cells = row[1:]
-        return sum(parse_number(c) is not None for c in cells) / max(1, len(cells))
+        return sum(bool(_PURE_NUM.fullmatch(c.strip())) for c in cells) / max(1, len(cells))
 
     # header = first row whose value cells are mostly not numbers
     if numeric_share(grid[0]) < 0.5:
@@ -155,7 +160,8 @@ def parse_model_output(text):
     else:
         header, body = ["x"] + [f"series_{j}" for j in range(1, len(grid[0]))], grid
     width = len(header)
-    body = [r for r in body if numeric_share(r) > 0]
+    # keep data rows with at least one number somewhere ("82.4 (±0.3)" counts)
+    body = [r for r in body if any(parse_number(c) is not None for c in r[1:])]
     if not body:
         return None
 

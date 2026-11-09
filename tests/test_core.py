@@ -100,3 +100,8 @@ def test_transposed_reading_is_turned_back():
 
 def test_pipe_target_parses_back():
     assert parse_model_output(to_pipe(TRUE)).cells() == TRUE.cells()
+
+
+def test_values_with_extra_text_are_kept():
+    t = parse_model_output("Model | Acc\nA | 82.4 (±0.3)\nB | 75%")
+    assert t.values == [[82.4], [75.0]]
