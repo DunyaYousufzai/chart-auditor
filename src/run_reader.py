@@ -31,9 +31,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--reader", required=True, choices=["deplot", "qwen", "qwen-hf", "simulated"])
     ap.add_argument("--model", default=None, help="Hugging Face id or local path")
-    ap.add_argument("--manifest", required=True)
+    ap.add_argument("--manifest", required=True, nargs="+", help="one or more manifests (model is loaded once)")
     ap.add_argument("--root", default=None, help="folder the image paths are relative to (default: manifest/../..)")
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--out", required=True, nargs="+", help="one output file per manifest")
     ap.add_argument("--n", type=int, default=1, help="readings per chart")
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--task", default="read", choices=["read", "judge"])
@@ -44,20 +44,24 @@ def main():
     ap.add_argument("--quantization", default=None, help="vLLM quantization, e.g. fp8")
     args = ap.parse_args()
 
-    manifest = Path(args.manifest)
-    root = Path(args.root) if args.root else manifest.parent.parent
-    records = [json.loads(l) for l in manifest.open()]
-    if args.limit:
-        records = records[:args.limit]
+    if len(args.manifest) != len(args.out):
+        ap.error("give one --out per --manifest")
 
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    done = set()
-    if out.exists():
-        done = {json.loads(l)["id"] for l in out.open()}
-    todo = [r for r in records if r["id"] not in done]
-    print(f"{len(records)} charts, {len(done)} already done, {len(todo)} to read")
-    if not todo:
+    jobs = []
+    for m, o in zip(args.manifest, args.out):
+        manifest = Path(m)
+        root = Path(args.root) if args.root else manifest.parent.parent
+        records = [json.loads(l) for l in manifest.open()]
+        if args.limit:
+            records = records[:args.limit]
+        out = Path(o)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        done = {json.loads(l)["id"] for l in out.open()} if out.exists() else set()
+        todo = [r for r in records if r["id"] not in done]
+        print(f"{m}: {len(records)} charts, {len(done)} already done, {len(todo)} to read")
+        if todo:
+            jobs.append((root, out, todo))
+    if not jobs:
         return
 
     kw = {}
@@ -73,27 +77,29 @@ def main():
 
     peak_gb = gpu_memory_used_gb()
     extra = {"task": args.task} if args.reader.startswith("qwen") else {}
-    with out.open("a") as f:
-        for start in range(0, len(todo), args.batch):
-            batch = todo[start:start + args.batch]
-            paths = [str(root / r["image"]) for r in batch]
-            if args.task == "judge":
-                extra["tables"] = [(root / r["paper_table"]).read_text() for r in batch]
-            t = time.time()
-            texts = reader.read(paths, n=args.n, temperature=args.temperature, seed=args.seed, **extra)
-            per_chart = (time.time() - t) / len(batch)
-            mem = gpu_memory_used_gb()
-            if mem is not None:
-                peak_gb = max(peak_gb or 0, mem)
-            for r, outs in zip(batch, texts):
-                f.write(json.dumps({"id": r["id"], "reader": args.reader, "model": reader.name,
-                                    "task": args.task, "n": args.n, "temperature": args.temperature,
-                                    "max_side": args.max_side, "quantization": args.quantization,
-                                    "seconds_per_chart": round(per_chart, 3),
-                                    "gpu_gb": None if peak_gb is None else round(peak_gb, 2),
-                                    "outputs": outs}) + "\n")
-            f.flush()
-            print(f"{start + len(batch)}/{len(todo)}  {per_chart:.2f}s per chart")
+    for root, out, todo in jobs:
+        print(f"== {out}")
+        with out.open("a") as f:
+            for start in range(0, len(todo), args.batch):
+                batch = todo[start:start + args.batch]
+                paths = [str(root / r["image"]) for r in batch]
+                if args.task == "judge":
+                    extra["tables"] = [(root / r["paper_table"]).read_text() for r in batch]
+                t = time.time()
+                texts = reader.read(paths, n=args.n, temperature=args.temperature, seed=args.seed, **extra)
+                per_chart = (time.time() - t) / len(batch)
+                mem = gpu_memory_used_gb()
+                if mem is not None:
+                    peak_gb = max(peak_gb or 0, mem)
+                for r, outs in zip(batch, texts):
+                    f.write(json.dumps({"id": r["id"], "reader": args.reader, "model": reader.name,
+                                        "task": args.task, "n": args.n, "temperature": args.temperature,
+                                        "max_side": args.max_side, "quantization": args.quantization,
+                                        "seconds_per_chart": round(per_chart, 3),
+                                        "gpu_gb": None if peak_gb is None else round(peak_gb, 2),
+                                        "outputs": outs}) + "\n")
+                f.flush()
+                print(f"{start + len(batch)}/{len(todo)}  {per_chart:.2f}s per chart", flush=True)
 
     if peak_gb is not None:
         print(f"peak GPU memory (nvidia-smi): {peak_gb:.2f} GB")
