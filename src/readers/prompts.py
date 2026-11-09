@@ -10,7 +10,12 @@ Rules:
 - Separate cells with " | ". One line per x-axis category, in the order shown.
 - First line is the header: the x-axis title, then one column per series. Use the legend names as series names; if there is no legend, use the y-axis title.
 - Value cells contain only a number: no units, no % sign, no thousands separators.
-- Read each value as precisely as the axis allows."""
+- Read each value as precisely as the axis allows.
+
+Example for a bar chart of accuracy of two models on two datasets:
+Model | CIFAR-10 | ImageNet
+ResNet | 93.1 | 76.2
+ViT | 98.1 | 81.0"""
 
 # Baseline B0: one model sees the chart and the paper's table and decides directly.
 JUDGE_PROMPT = """Here is a chart from a scientific paper and a table from the same paper.
