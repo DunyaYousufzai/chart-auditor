@@ -154,7 +154,12 @@ def draw(labels, values, chart_type, style, topic, path):
         ax.set_title(topic["title"])
         ax.set_xlabel(topic["x"])
         ax.set_ylabel(topic["y"])
-        ax.grid(style["grid"], axis="y", alpha=0.4)
+        # ax.grid(False, alpha=0.4) still turns the grid ON (matplotlib enables it
+        # whenever line properties are passed), so only call it with True.
+        if style["grid"]:
+            ax.grid(True, axis="y", alpha=0.4)
+        else:
+            ax.grid(False)
         ax.set_axisbelow(True)
         if len(labels) > 6 or max(len(l) for l in labels) > 6:
             plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
