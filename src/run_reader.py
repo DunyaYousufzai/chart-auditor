@@ -9,10 +9,22 @@ The output file can be resumed: ids already in it are skipped.
 """
 import argparse
 import json
+import subprocess
 import time
 from pathlib import Path
 
 from readers import get_reader
+
+
+def gpu_memory_used_gb():
+    """GPU memory in use right now, from nvidia-smi (works for vLLM, whose model lives in another process).
+    Note: vLLM reserves gpu_memory_utilization of the card up front, so this shows the reservation."""
+    try:
+        out = subprocess.run(["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
+                             capture_output=True, text=True, timeout=10).stdout
+        return max(float(x) for x in out.split()) / 1024
+    except Exception:
+        return None
 
 
 def main():
@@ -59,6 +71,7 @@ def main():
     reader = get_reader(args.reader, **kw)
     print(f"model loaded in {time.time() - t0:.0f}s: {reader.name}")
 
+    peak_gb = gpu_memory_used_gb()
     extra = {"task": args.task} if args.reader.startswith("qwen") else {}
     with out.open("a") as f:
         for start in range(0, len(todo), args.batch):
@@ -69,20 +82,21 @@ def main():
             t = time.time()
             texts = reader.read(paths, n=args.n, temperature=args.temperature, seed=args.seed, **extra)
             per_chart = (time.time() - t) / len(batch)
+            mem = gpu_memory_used_gb()
+            if mem is not None:
+                peak_gb = max(peak_gb or 0, mem)
             for r, outs in zip(batch, texts):
                 f.write(json.dumps({"id": r["id"], "reader": args.reader, "model": reader.name,
                                     "task": args.task, "n": args.n, "temperature": args.temperature,
                                     "max_side": args.max_side, "quantization": args.quantization,
-                                    "seconds_per_chart": round(per_chart, 3), "outputs": outs}) + "\n")
+                                    "seconds_per_chart": round(per_chart, 3),
+                                    "gpu_gb": None if peak_gb is None else round(peak_gb, 2),
+                                    "outputs": outs}) + "\n")
             f.flush()
             print(f"{start + len(batch)}/{len(todo)}  {per_chart:.2f}s per chart")
 
-    try:
-        import torch
-        if torch.cuda.is_available():
-            print(f"peak GPU memory (torch): {torch.cuda.max_memory_allocated() / 2**30:.2f} GB")
-    except ImportError:
-        pass
+    if peak_gb is not None:
+        print(f"peak GPU memory (nvidia-smi): {peak_gb:.2f} GB")
 
 
 if __name__ == "__main__":
