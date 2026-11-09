@@ -105,3 +105,20 @@ def test_pipe_target_parses_back():
 def test_values_with_extra_text_are_kept():
     t = parse_model_output("Model | Acc\nA | 82.4 (±0.3)\nB | 75%")
     assert t.values == [[82.4], [75.0]]
+
+
+def test_wide_output_without_series_name():
+    t = parse_model_output("Year | 2014 | 2015 | 2016\n130 | 220 | 280")
+    assert t.rows == ["2014", "2015", "2016"] and t.values == [[130.0], [220.0], [280.0]]
+    paper = Table("Year", ["Revenue"], ["2014", "2015", "2016"], [[130.0], [220.0], [280.0]])
+    assert compare(t, paper)["verdict"] == "match"
+
+
+def test_wide_output_with_series_names():
+    t = parse_model_output("City | Zurich | Geneva | Basel\nPlacebo | 1 | 2 | 3\nControl | 4 | 5 | 6")
+    assert t.series == ["Placebo", "Control"] and t.values[2] == [3.0, 6.0]
+
+
+def test_normal_long_table_is_not_taken_as_wide():
+    t = parse_model_output("Model | A | B\nX | 1 | 2\nY | 3 | 4\nZ | 5 | 6")
+    assert t.rows == ["X", "Y", "Z"] and t.series == ["A", "B"]

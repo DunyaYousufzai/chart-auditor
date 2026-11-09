@@ -119,6 +119,38 @@ def from_csv(text):
     )
 
 
+def _is_num(cell):
+    return bool(_PURE_NUM.fullmatch(cell.strip()))
+
+
+def _parse_wide(grid):
+    """Read a "wide" table: categories along the first line, one line per series.
+
+        Year | 2014 | 2015 | 2016          <- categories (may be numbers, like years)
+        130 | 220 | 280                    <- values without a series name, or
+        Revenue | 130 | 220 | 280          <- values with a series name
+
+    Qwen3-VL writes single-series charts like this. Returns None if grid is not wide.
+    """
+    # needs >= 3 categories and fewer value lines than categories; ambiguous cases keep their
+    # labels either way, and checker.orient() turns them the right way round
+    if len(grid) < 2 or len(grid[0]) < 4 or len(grid) - 1 >= len(grid[0]) - 1:
+        return None
+    cats = grid[0][1:]
+    series, values = [], []
+    for k, row in enumerate(grid[1:]):
+        if len(row) == len(cats) and all(_is_num(c) for c in row):
+            name, cells = f"series_{k + 1}", row
+        elif len(row) == len(cats) + 1 and not _is_num(row[0]) and all(_is_num(c) for c in row[1:]):
+            name, cells = row[0], row[1:]
+        else:
+            return None
+        series.append(name)
+        values.append([parse_number(c) for c in cells])
+    rows = [[values[j][i] for j in range(len(series))] for i in range(len(cats))]
+    return Table(x_name=grid[0][0], series=series, rows=cats, values=rows)
+
+
 def parse_model_output(text):
     """Turn what a chart reader wrote into a Table, or None if it is unusable.
 
@@ -153,6 +185,10 @@ def parse_model_output(text):
         # so labels like "CIFAR-10" or "GPT-2" in a header are not mistaken for data
         cells = row[1:]
         return sum(bool(_PURE_NUM.fullmatch(c.strip())) for c in cells) / max(1, len(cells))
+
+    wide = _parse_wide(grid)
+    if wide is not None:
+        return wide
 
     # header = first row whose value cells are mostly not numbers
     if numeric_share(grid[0]) < 0.5:
