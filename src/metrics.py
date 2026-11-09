@@ -13,7 +13,7 @@
 """
 from collections import defaultdict
 
-from checker import align
+from checker import align, orient
 
 
 def rnss(pred_vals, true_vals):
@@ -48,6 +48,7 @@ def reading_scores(pred, true, tol=0.05):
     tc = true.cells()
     if pred is None:
         return {"cell_acc": 0.0, "mean_rel_err": 1.0, "coverage": 0.0, "rnss": 0.0, "parsed": 0}
+    pred = orient(pred, true)
     pc = pred.cells()
     pairs, _, _ = align(pred, true)
     pairs = [(a, b) for a, b in pairs if a in pc and b in tc]

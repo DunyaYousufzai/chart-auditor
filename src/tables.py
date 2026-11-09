@@ -36,6 +36,11 @@ class Table:
         vals = [abs(v) for v in self.cells().values()]
         return max(vals) if vals else 0.0
 
+    def transpose(self):
+        """Rows become series and series become rows (readers sometimes write the table sideways)."""
+        values = [[self.values[i][j] for i in range(len(self.rows))] for j in range(len(self.series))]
+        return Table("x", list(self.rows), list(self.series), values)
+
     def copy(self):
         return Table(self.x_name, list(self.series), list(self.rows),
                      [list(r) for r in self.values])

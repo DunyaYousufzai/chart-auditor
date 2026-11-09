@@ -88,3 +88,11 @@ def test_detection_scores():
     s = detection_scores(["mismatch", "match", "mismatch", "match"],
                          ["mismatch", "mismatch", "not_sure", "match"])
     assert s["precision"] == 0.5 and s["recall"] == 1.0 and s["not_sure_rate"] == 0.25
+
+
+def test_transposed_reading_is_turned_back():
+    sideways = parse_model_output("City | Zurich | Geneva | Basel\n--- | --- | --- | ---\nPatients | 350 | 315 | 390")
+    paper = Table("City", ["Patients"], ["Zurich", "Geneva", "Basel"], [[350.0], [315.0], [390.0]])
+    assert compare(sideways, paper)["verdict"] == "match"
+    paper.values[1][0] = 250.0
+    assert compare(sideways, paper)["verdict"] == "mismatch"

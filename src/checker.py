@@ -49,6 +49,23 @@ def match_names(chart_names, table_names, cutoff=0.6):
     return out
 
 
+def orient(chart, ref):
+    """Return chart as is or transposed, whichever lines up better with ref.
+
+    Qwen3-VL often writes categories as columns ("City | Zurich | Geneva" then
+    "Patients | 350 | 315"). We count how many row and series names match ref in
+    both orientations (plus a bonus when the shape matches) and keep the better one.
+    """
+    def score(c):
+        s = len(match_names(c.rows, ref.rows, cutoff=0.8)) + len(match_names(c.series, ref.series, cutoff=0.8))
+        if (len(c.rows), len(c.series)) == (len(ref.rows), len(ref.series)):
+            s += 0.5
+        return s
+
+    t = chart.transpose()
+    return t if score(t) > score(chart) else chart
+
+
 def align(chart, table):
     """Pairs of (chart cell key, table cell key). chart and table are tables.Table.
 
@@ -94,6 +111,10 @@ def compare(chart, table, spread=None, tau=0.05, k=0.0, s_max=None, floor=0.05,
     Returns a dict the web page can show: verdict, note, differences, plus details.
     """
     spread = spread or {}
+    oriented = orient(chart, table)
+    if oriented is not chart:  # transposed: the spread keys must follow
+        spread = {(s, r): v for (r, s), v in spread.items()}
+        chart = oriented
     pairs, row_map, col_map = align(chart, table)
     cc, tc = chart.cells(), table.cells()
     pairs = [(a, b) for a, b in pairs if a in cc and b in tc]

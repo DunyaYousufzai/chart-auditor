@@ -9,7 +9,7 @@ so we first align every reading to a reference reading, then take per cell:
 import statistics
 from collections import Counter
 
-from checker import match_names
+from checker import match_names, orient
 from tables import Table
 
 
@@ -30,6 +30,7 @@ def combine(readings):
     collected = {(r, s): [] for r in ref.rows for s in ref.series}
 
     for rd in ok:
+        rd = orient(rd, ref)
         rows = match_names(rd.rows, ref.rows)
         if not rows and len(rd.rows) == len(ref.rows):
             rows = dict(zip(rd.rows, ref.rows))
