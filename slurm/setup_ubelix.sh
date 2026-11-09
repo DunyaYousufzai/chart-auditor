@@ -8,7 +8,7 @@ echo "store: $PROJ_STORE"
 
 echo "[1/5] folders"
 # 1. Folders. data/* and outputs/* are in .gitignore, so git does not see these links.
-mkdir -p "$PROJ_STORE"/{images,hf_cache,vllm_cache,data/synthetic_v2,data/chartqa_raw,data/chartqa_pairs,outputs/readings,outputs/results}
+mkdir -p "$PROJ_STORE"/{images,pylib,hf_cache,vllm_cache,data/synthetic_v2,data/chartqa_raw,data/chartqa_pairs,outputs/readings,outputs/results}
 for d in data/synthetic_v2 data/chartqa_raw data/chartqa_pairs outputs/readings outputs/results; do
   [ -e "$d" ] || ln -s "$PROJ_STORE/$d" "$d"
 done
@@ -20,6 +20,9 @@ SRC_SIF=/storage/scratch/users/$USER/spec-compression/images/vllm.sif
 if [ ! -f "$VLLM_SIF" ]; then
   ln "$SRC_SIF" "$VLLM_SIF" 2>/dev/null || cp "$SRC_SIF" "$VLLM_SIF"
 fi
+
+# peft is not in the container: install it next to it, without deps (keeps vLLM's torch)
+apptainer exec --cleanenv -B "$PROJ_STORE" "$VLLM_SIF" python3 -m pip install -q --no-deps --target "$PROJ_STORE/pylib" peft
 
 echo "[3/5] CPU python env"
 # 3. Small CPU env for data generation and evaluation
