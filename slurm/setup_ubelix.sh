@@ -45,4 +45,4 @@ apptainer exec --cleanenv --env HF_HOME="$HF_HOME" -B "$PROJ_STORE" "$VLLM_SIF" 
 from huggingface_hub import snapshot_download
 for m in ['Qwen/Qwen3-VL-4B-Instruct', 'google/deplot']:
     print('downloading', m); snapshot_download(m)"
-echo "Setup done. Next: sbatch slurm/smoke.sbatch"
+echo "Setup done. Next: bash slurm/sbatch.sh slurm/smoke.sbatch"
