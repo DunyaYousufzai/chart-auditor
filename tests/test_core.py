@@ -9,7 +9,7 @@ from checker import compare  # noqa: E402
 from ensemble import combine  # noqa: E402
 from metrics import detection_scores  # noqa: E402
 from perturb import make_paper_table  # noqa: E402
-from tables import Table, from_csv, parse_model_output, parse_number  # noqa: E402
+from tables import Table, from_csv, parse_model_output, parse_number, to_pipe  # noqa: E402
 
 TRUE = Table("Model", ["CIFAR-10", "ImageNet"], ["ResNet", "ViT", "BERT"],
              [[93.1, 76.2], [98.1, 81.0], [88.0, 70.5]])
@@ -96,3 +96,7 @@ def test_transposed_reading_is_turned_back():
     assert compare(sideways, paper)["verdict"] == "match"
     paper.values[1][0] = 250.0
     assert compare(sideways, paper)["verdict"] == "mismatch"
+
+
+def test_pipe_target_parses_back():
+    assert parse_model_output(to_pipe(TRUE)).cells() == TRUE.cells()

@@ -54,6 +54,18 @@ class Table:
         return buf.getvalue()
 
 
+def to_pipe(table):
+    """The text a reader should write: same format as READ_PROMPT asks for.
+
+    Model | CIFAR-10 | ImageNet
+    ResNet | 93.1 | 76.2
+    """
+    lines = [" | ".join([table.x_name] + table.series)]
+    for r, vals in zip(table.rows, table.values):
+        lines.append(" | ".join([r] + [fmt_number(v) for v in vals]))
+    return "\n".join(lines)
+
+
 def fmt_number(v, dec=None):
     if v is None:
         return ""
