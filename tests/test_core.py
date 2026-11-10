@@ -166,3 +166,22 @@ def test_arxiv_pgf_skips_log_and_clipped_and_reads_legend():
     assert list(extract_figures(clipped, Path("."))) == []
     t = from_csv(list(extract_figures(legend, Path(".")))[0]["table"])
     assert t.series == ["Old System", "New System"]
+
+
+def test_arxiv_pgf_tick_labels():
+    from arxiv_pgf import extract_figures
+
+    def fig(opts):
+        tex = (r"\begin{tikzpicture}\begin{axis}[ybar, " + opts + r"]"
+               r"\addplot coordinates {(1,5) (2,6) (3,7)};\end{axis}\end{tikzpicture}")
+        return list(extract_figures(tex, Path(".")))
+    # commas inside $..$ or (..) do not split a label
+    t = from_csv(fig(r"xtick=data, xticklabels={($3\%, 20\%$), ($3\%, 30\%$), (b, c)}")[0]["table"])
+    assert t.rows == ["(3%, 20%)", "(3%, 30%)", "(b, c)"]
+    # labels are mapped through xtick positions (here 4 ticks for 3 points)
+    t = from_csv(fig(r"xtick={0,1,2,3}, xticklabels={z,a,b,c}")[0]["table"])
+    assert t.rows == ["a", "b", "c"]
+    # hidden labels, unmappable labels, or a legend drawn elsewhere: skip the chart
+    assert fig(r"xticklabels={}") == []
+    assert fig(r"xticklabels={a,b}") == []
+    assert fig(r"legend to name=foo") == []

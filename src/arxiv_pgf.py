@@ -140,13 +140,17 @@ def option_list(opts, key):
         return None
     end = balanced(opts, m.end() - 1, "{", "}")
     body = opts[m.end():end - 1]
-    items, depth, cur = [], 0, ""
-    for ch in body:
-        if ch == "{":
+    # split on top-level commas only: not inside {..}, (..), [..] or $..$, so a label
+    # like "($3\%, 20\%$)" stays one label
+    items, depth, cur, math = [], 0, "", False
+    for i, ch in enumerate(body):
+        if ch == "$" and (i == 0 or body[i - 1] != "\\"):
+            math = not math
+        elif ch in "{([":
             depth += 1
-        elif ch == "}":
+        elif ch in "})]":
             depth -= 1
-        if ch == "," and depth == 0:
+        if ch == "," and depth == 0 and not math:
             items.append(cur.strip())
             cur = ""
         else:
@@ -229,7 +233,8 @@ def extract_figures(tex, src_dir):
         if block[a:a + 1] == "[":
             e = balanced(block, a, "[", "]")
             opts = block[a + 1:e - 1]
-        if any(k in opts for k in ("polar", "3d", "view=", "colorbar")):
+        # legend to name: the legend is drawn elsewhere, so series names are not in the image
+        if any(k in opts for k in ("polar", "3d", "view=", "colorbar", "legend to name")):
             continue
         if re.search(r"\b[xy]mode\s*=\s*log", opts):  # log axes are out of scope
             continue
@@ -282,7 +287,20 @@ def extract_figures(tex, src_dir):
                 (lim.get(ck_max) is not None and max(num_x) > lim[ck_max])):
             continue
         ticks = option_list(opts, "xticklabels") if not horizontal else option_list(opts, "yticklabels")
-        rows = ticks if ticks and len(ticks) == len(xs) else xs
+        if ticks is not None:
+            # xtick={1,2,..} + xticklabels={a,b,..}: label of each point = label at its tick position
+            pos = option_list(opts, "ytick" if horizontal else "xtick")
+            pos = [to_float(p) for p in pos] if pos else None
+            if pos and len(pos) == len(ticks) and all(p is not None for p in pos) \
+                    and all(v is not None for v in num_x):
+                by_pos = dict(zip(pos, ticks))
+                rows = [by_pos.get(v) for v in num_x]
+            else:
+                rows = ticks if len(ticks) == len(xs) else None
+            if not rows or any(not r for r in rows):
+                continue  # labels hidden ({}) or not mappable to the points
+        else:
+            rows = xs
         names = [n or (legend[k] if legend and k < len(legend) else f"series_{k + 1}")
                  for k, (n, _) in enumerate(series)]
         if len(set(names)) != len(names):
