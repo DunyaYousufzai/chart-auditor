@@ -376,6 +376,7 @@ def cmd_pairs(args):
     if args.origin:
         figs = [p for p in figs if json.loads((p / "meta.json").read_text()).get("origin", "arxiv") == args.origin]
     random.Random(args.seed).shuffle(figs)
+    figs = figs[args.skip:]  # e.g. --skip 1000 for a val split that does not overlap test
     if args.limit:
         figs = figs[:args.limit]
     out = Path(args.out) / args.split
@@ -427,6 +428,7 @@ def main():
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--origin", default=None, help="keep figures with this origin in meta.json (e.g. arxiv)")
     p.add_argument("--limit", type=int, default=None)
+    p.add_argument("--skip", type=int, default=0, help="skip the first n shuffled figures")
     args = ap.parse_args()
     {"fetch": cmd_fetch, "extract": cmd_extract, "compile": cmd_compile, "pairs": cmd_pairs}[args.cmd](args)
 
