@@ -122,3 +122,34 @@ def test_wide_output_with_series_names():
 def test_normal_long_table_is_not_taken_as_wide():
     t = parse_model_output("Model | A | B\nX | 1 | 2\nY | 3 | 4\nZ | 5 | 6")
     assert t.rows == ["X", "Y", "Z"] and t.series == ["A", "B"]
+
+
+def test_arxiv_pgf_extracts_bar_and_line():
+    from arxiv_pgf import extract_figures
+    tex = r"""
+\begin{tikzpicture}
+\begin{axis}[ybar, symbolic x coords={ResNet,ViT,BERT}, xtick=data, ylabel={Accuracy (\%)}]
+\addplot coordinates {(ResNet,93.1) (ViT,98.1) (BERT,88.0)}; \addlegendentry{CIFAR-10}
+\addplot coordinates {(ResNet,76.2) (ViT,81.0) (BERT,70.5)}; \addlegendentry{ImageNet}
+\end{axis}
+\end{tikzpicture}
+% a line chart with an inline table
+\begin{tikzpicture}
+\begin{axis}[xlabel={Epoch}]
+\addplot table [x=ep, y=acc] {
+ep acc
+1 50.5
+2 61.0
+3 70.2
+};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}\begin{axis}[only marks]\addplot+[only marks] coordinates {(1,2) (3,4)};\end{axis}\end{tikzpicture}
+"""
+    figs = list(extract_figures(tex, Path(".")))
+    assert len(figs) == 2
+    bar = from_csv(figs[0]["table"])
+    assert figs[0]["chart_type"] == "v_bar" and bar.series == ["CIFAR-10", "ImageNet"]
+    assert bar.cells()[("ViT", "ImageNet")] == 81.0
+    line = from_csv(figs[1]["table"])
+    assert figs[1]["chart_type"] == "line" and line.x_name == "Epoch" and line.values == [[50.5], [61.0], [70.2]]
