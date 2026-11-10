@@ -373,6 +373,11 @@ def cmd_compile(args):
 def cmd_pairs(args):
     from tables import from_csv
     figs = sorted(p for p in Path(args.figs).iterdir() if (p / "chart.png").exists())
+    if args.origin:
+        figs = [p for p in figs if json.loads((p / "meta.json").read_text()).get("origin", "arxiv") == args.origin]
+    random.Random(args.seed).shuffle(figs)
+    if args.limit:
+        figs = figs[:args.limit]
     out = Path(args.out) / args.split
     for sub in ("images", "tables", "paper_tables"):
         (out / sub).mkdir(parents=True, exist_ok=True)
@@ -420,6 +425,8 @@ def main():
     p.add_argument("--out", default="data/arxiv_pgf")
     p.add_argument("--split", default="test")
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--origin", default=None, help="keep figures with this origin in meta.json (e.g. arxiv)")
+    p.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
     {"fetch": cmd_fetch, "extract": cmd_extract, "compile": cmd_compile, "pairs": cmd_pairs}[args.cmd](args)
 
