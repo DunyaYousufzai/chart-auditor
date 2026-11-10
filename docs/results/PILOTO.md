@@ -1,7 +1,7 @@
 # Resultados del piloto (9 nov 2026)
 
 Modelos sin ajustar. Lecturas en UBELIX (RTX 4090, vLLM 0.32). Umbral τ y k ajustados en val de cada fuente.
-Tabla completa: `pilot_summary_raw.md`; métricas detalladas por ejecución: `pilot_json/`.
+Tabla completa: `summary_raw.md`; métricas detalladas por ejecución: `pilot_json/`.
 
 ## Sets
 

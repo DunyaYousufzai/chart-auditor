@@ -1,0 +1,25 @@
+{
+  "model": "Qwen/Qwen3-VL-4B-Instruct",
+  "train": [
+    "data/synthetic_v2/train/manifest.jsonl",
+    "data/chartqa_pairs/train/manifest.jsonl"
+  ],
+  "val": [
+    "data/synthetic_v2/val/manifest.jsonl",
+    "data/chartqa_pairs/val/manifest.jsonl"
+  ],
+  "limit_train": null,
+  "limit_val": 100,
+  "out": "outputs/lora/qwen4b_r16",
+  "epochs": 2.0,
+  "max_steps": null,
+  "lr": 0.0001,
+  "batch": 2,
+  "grad_accum": 8,
+  "r": 16,
+  "alpha": 32,
+  "dropout": 0.05,
+  "max_side": 1024,
+  "eval_every": 200,
+  "seed": 0
+}
