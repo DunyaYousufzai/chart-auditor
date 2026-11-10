@@ -153,3 +153,16 @@ ep acc
     assert bar.cells()[("ViT", "ImageNet")] == 81.0
     line = from_csv(figs[1]["table"])
     assert figs[1]["chart_type"] == "line" and line.x_name == "Epoch" and line.values == [[50.5], [61.0], [70.2]]
+
+
+def test_arxiv_pgf_skips_log_and_clipped_and_reads_legend():
+    from arxiv_pgf import extract_figures
+    log = r"\begin{tikzpicture}\begin{axis}[ymode=log]\addplot coordinates {(1,1) (2,0.1)};\end{axis}\end{tikzpicture}"
+    clipped = r"\begin{tikzpicture}\begin{axis}[xmin=1]\addplot coordinates {(0,1) (1,2) (2,3)};\end{axis}\end{tikzpicture}"
+    legend = (r"\begin{tikzpicture}\begin{axis}[ybar, symbolic x coords={T1,T2}]"
+              r"\addplot coordinates {(T1,70) (T2,80)};\addplot coordinates {(T1,10) (T2,15)};"
+              r"\legend{Old System, New System}\end{axis}\end{tikzpicture}")
+    assert list(extract_figures(log, Path("."))) == []
+    assert list(extract_figures(clipped, Path("."))) == []
+    t = from_csv(list(extract_figures(legend, Path(".")))[0]["table"])
+    assert t.series == ["Old System", "New System"]

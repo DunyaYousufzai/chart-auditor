@@ -231,10 +231,16 @@ def extract_figures(tex, src_dir):
             opts = block[a + 1:e - 1]
         if any(k in opts for k in ("polar", "3d", "view=", "colorbar")):
             continue
+        if re.search(r"\b[xy]mode\s*=\s*log", opts):  # log axes are out of scope
+            continue
         horizontal = "xbar" in opts
         bar = horizontal or "ybar" in opts
         series = []
         legend = option_list(opts, "legend entries")
+        lg = re.search(r"\\legend\s*\{", block)  # \legend{A, B} after the plots
+        if lg and not legend:
+            end_lg = balanced(block, lg.end() - 1, "{", "}")
+            legend = option_list("x={" + block[lg.end():end_lg - 1] + "}", "x")
         for pm in PLOT_RE.finditer(block):
             popts = (pm.group(1) or "") + (pm.group(3) or "")
             if any(k in popts for k in ("only marks", "fill between", "forget plot", "error bars")):
@@ -261,6 +267,19 @@ def extract_figures(tex, src_dir):
         if not 2 <= len(xs) <= 15 or len(set(xs)) != len(xs):
             continue
         if any([x for x, _ in pts] != xs for _, pts in series):
+            continue
+        # drop charts with points outside the axis limits: they are in the table but not drawn
+        lim = {k: to_float(v) for k, v in re.findall(r"\b(xmin|xmax|ymin|ymax)\s*=\s*([-\d.eE+]+)", opts)}
+        vals = [v for _, pts in series for _, v in pts]
+        vk_min, vk_max = ("xmin", "xmax") if horizontal else ("ymin", "ymax")
+        if (lim.get(vk_min) is not None and min(vals) < lim[vk_min]) or \
+           (lim.get(vk_max) is not None and max(vals) > lim[vk_max]):
+            continue
+        num_x = [to_float(x) for x in xs]
+        ck_min, ck_max = ("ymin", "ymax") if horizontal else ("xmin", "xmax")
+        if all(v is not None for v in num_x) and (
+                (lim.get(ck_min) is not None and min(num_x) < lim[ck_min]) or
+                (lim.get(ck_max) is not None and max(num_x) > lim[ck_max])):
             continue
         ticks = option_list(opts, "xticklabels") if not horizontal else option_list(opts, "yticklabels")
         rows = ticks if ticks and len(ticks) == len(xs) else xs
