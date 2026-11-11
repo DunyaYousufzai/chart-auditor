@@ -31,6 +31,7 @@ from tables import from_csv, parse_model_output
 TAUS = [0.02, 0.03, 0.05, 0.08, 0.10, 0.15]
 KS = [0.5, 1, 1.5, 2, 3, 4]
 SMAX = [None, 0.15, 0.3, 0.5]
+RELS = [2, 3, 4, 6, 8]
 
 
 def load(manifest, readings, root=None, n_use=None):
@@ -62,13 +63,13 @@ def prepare(rows, early_stop=False):
     return rows
 
 
-def verdicts(rows, tau, k, s_max):
+def verdicts(rows, **params):
     out = []
     for r in rows:
         if r["median"] is None:
             out.append("not_sure")
         else:
-            out.append(compare(r["median"], r["paper"], r["spread"], tau=tau, k=k, s_max=s_max)["verdict"])
+            out.append(compare(r["median"], r["paper"], r["spread"], **params)["verdict"])
     return out
 
 
@@ -77,14 +78,21 @@ def objective(scores):
     return scores["f1"] * (1 - scores["not_sure_rate"])
 
 
-def tune(rows, adaptive):
+def tune(rows, mode):
+    """Best parameters on rows. mode: fixed (tau), adaptive (tau, k, s_max), relative (tau, rel, calibrate)."""
     labels = [r["rec"]["label"] for r in rows]
-    grid = itertools.product(TAUS, KS, SMAX) if adaptive else [(t, 0.0, None) for t in TAUS]
+    if mode == "adaptive":
+        grid = [{"tau": t, "k": k, "s_max": s} for t, k, s in itertools.product(TAUS, KS, SMAX)]
+    elif mode == "relative":
+        grid = [{"tau": t, "k": 0.0, "s_max": None, "rel": r, "calibrate": c}
+                for t, r, c in itertools.product(TAUS, RELS, [False, True])]
+    else:
+        grid = [{"tau": t, "k": 0.0, "s_max": None} for t in TAUS]
     best, best_obj = None, -1
-    for tau, k, s_max in grid:
-        sc = detection_scores(labels, verdicts(rows, tau, k, s_max))
+    for params in grid:
+        sc = detection_scores(labels, verdicts(rows, **params))
         if objective(sc) > best_obj:
-            best, best_obj = {"tau": tau, "k": k, "s_max": s_max}, objective(sc)
+            best, best_obj = params, objective(sc)
     return best
 
 
@@ -154,8 +162,9 @@ def main():
         else:
             print("WARNING: no validation readings; tuning on the test set itself (optimistic).")
         res["detection_fixed_5pct"] = detection_block(rows, {"tau": 0.05, "k": 0.0, "s_max": None})
-        res["detection_fixed"] = detection_block(rows, tune(tune_rows, adaptive=False))
-        res["detection_adaptive"] = detection_block(rows, tune(tune_rows, adaptive=True))
+        res["detection_fixed"] = detection_block(rows, tune(tune_rows, "fixed"))
+        res["detection_adaptive"] = detection_block(rows, tune(tune_rows, "adaptive"))
+        res["detection_relative"] = detection_block(rows, tune(tune_rows, "relative"))
 
     # ---- print a short summary ----
     print(f"\n{res['model']}  task={task}  charts={len(rows)}  N={res['n_use']}  "
