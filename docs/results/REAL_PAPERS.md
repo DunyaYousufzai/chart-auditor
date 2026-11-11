@@ -154,11 +154,35 @@ erróneas** (≥ 10 % del eje), no umbrales mal puestos. Medir el error contra e
 Dos pistas concretas: las imágenes son de 420 px (texto de 5–6 px de alto) y los errores grandes se
 concentran en números escritos chicos/rotados y en líneas que se tocan.
 
+## Alta resolución: los mismos gráficos recompilados a 1260 px
+
+Recompilamos el código TikZ de cada gráfico (`src/rerender.py`, `slurm/rerender.sbatch`: pdflatex sin
+shell-escape, clase `standalone`, recorte y rasterizado con el lado mayor = 1260 px). Compilan 987 de 995
+gráficos de test y 389 de 399 de val. De paso: DaTikZ **estira todo a un cuadrado de 420×420**; la versión
+nueva conserva la proporción real. Comparamos sobre exactamente los 987 gráficos y las mismas tablas
+(umbral elegido en val, como siempre); lo único que cambia es la imagen.
+
+| Lector | Imagen | Celdas ±5 % | Error rel. | P | R | F1 | Falsa alarma en match | Not sure |
+|---|---|---|---|---|---|---|---|---|
+| Qwen3-VL-4B base | 420 px | 43.7 % | 0.457 | 0.625 | 0.923 | 0.745 | 49.4 % | 22.8 % |
+| Qwen3-VL-4B base | 1260 px | 51.9 % | 0.388 | 0.641 | 0.947 | 0.764 | 49.2 % | 18.3 % |
+| LoRA + papers | 420 px | 59.4 % | 0.304 | 0.640 | 0.914 | 0.753 | 52.1 % | 9.1 % |
+| LoRA + papers | 1260 px | **68.6 %** | **0.238** | **0.689** | 0.892 | **0.777** | **41.7 %** | 7.8 % |
+
+- **La resolución explica una parte grande del error**: +8.2 puntos de lectura para Qwen base y +9.2 para
+  el LoRA, sin cambiar el modelo. El LoRA se entrenó con imágenes de 420 px y aun así mejora con 1260 px.
+- **Resolución y LoRA se suman**: de 43.7 % (base, 420 px) a 68.6 % (LoRA, 1260 px).
+- **Es la primera mejora clara de detección en papers**: el F1 del LoRA sube de 0.753 a 0.777 y las falsas
+  alarmas sobre gráficos correctos bajan de 52 % a 42 %. Para Qwen base sube el F1 (0.745 → 0.764) por
+  recall y menos "not sure", pero las falsas alarmas siguen en ~49 %: leer mejor no alcanza si la lectura
+  todavía falla en algunas celdas de casi todos los gráficos.
+- Costo: ~0.6 s por gráfico con N = 9 (frente a ~0.4 s a 420 px).
+- Siguiente paso obvio: re-entrenar el LoRA etapa 2 con imágenes en alta resolución.
+
 ## Qué sigue (ideas)
 
-- **Imágenes en alta resolución**: todas las imágenes de DaTikZ son de 420×420 px; Qwen las ve con unos
-  ~200 tokens visuales. Tenemos el código TikZ de cada gráfico, así que se pueden recompilar a 200 dpi y
-  leer los mismos gráficos: es el experimento directo para saber cuánto del error es resolución.
+- **LoRA con imágenes en alta resolución**: el set de entrenamiento también tiene código TikZ, así que se
+  puede recompilar a 1260 px y re-entrenar.
 - **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
   que se podrían recompilar con variaciones de estilo.
 - **Lectura agéntica**: leer primero los ticks y el multiplicador del eje, recortar/ampliar cada serie y
@@ -186,6 +210,7 @@ sirve para medir lectura celda a celda ni para verificar contra una tabla.
 python src/datikz_pgf.py --origin arxiv
 python src/arxiv_pgf.py pairs --figs data/datikz_pgf/figs --out data/datikz_pgf --origin arxiv --limit 1000
 python src/arxiv_pgf.py pairs --figs data/datikz_pgf/figs --out data/datikz_pgf --origin arxiv --split val --skip 1000 --limit 400
+# alta resolución: sbatch --nodes=1 --partition=epyc2 --account=gratis --qos=job_gratis slurm/rerender.sbatch
 # lecturas: slurm/read.sbatch (ver slurm/README.md); evaluación: src/evaluate.py con --val-manifest
 ```
 
