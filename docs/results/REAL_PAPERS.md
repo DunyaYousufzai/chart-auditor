@@ -93,11 +93,47 @@ Por tipo: barras verticales 69 % → **74 %**, líneas 43 % → **53 %**, con n�
    dentro del ±5 %, casi todos los gráficos tienen alguna celda fuera aunque coincidan con la tabla. Para
    bajar las falsas alarmas haría falta ~99 % por celda, o una regla de decisión distinta.
 
+## Regla relativa (resultado negativo) y de dónde vienen las falsas alarmas
+
+**Idea probada:** marcar una celda solo si su error sobresale frente al error típico de ese gráfico
+(`rel` × mediana de los errores), opcionalmente tras una calibración robusta chart ≈ a·tabla + b
+(Theil-Sen) para absorber un eje mal leído (`checker.compare(rel=..., calibrate=...)`, ajustado en val).
+
+**No funciona.** En papers baja el F1 en los cuatro lectores (LoRA + papers: 0.753 → 0.719); en ChartQA y
+sintéticos queda igual o algo peor (salvo DePlot en sintéticos vistos, +0.02). Queda como opción apagada.
+
+**Por qué:** la suposición era que el error de lectura es ruido parejo. Midiendo en los gráficos que sí
+coinciden (LoRA + papers, test):
+
+| | Gráficos correctos | Gráficos alterados |
+|---|---|---|
+| Con alguna celda > 5 % | 59 % | 91 % |
+| Celdas fuera, cuando hay | 5 de 14 | 3 de 11 |
+| Error típico (mediana) | 1.0 % | 1.7 % |
+| Error máximo (mediana) | 9.9 % | 59.7 % |
+
+La lectura es muy precisa en la mayoría de las celdas, pero cuando falla en un gráfico correcto falla en
+**varias celdas a la vez y por mucho** (58 % de las falsas alarmas tienen alguna celda > 30 %). Ese patrón
+no se distingue de una tabla alterada mirando solo errores. Variante "si hay muchas celdas fuera, decir *no
+sé*": baja las falsas alarmas de 51 % a 20 % en val, pero a costa de responder *no sé* en 39 % de los
+gráficos; tampoco sube el F1.
+
+Desglose de las 267 falsas alarmas: 79 % en gráficos de varias series, 71 % en líneas; cambiar el orden de
+las series solo arregla 1, así que el lector no confunde colores de la leyenda.
+
+**Bug encontrado en el camino (commit 9a8ebe6):** en el 20 % de las falsas alarmas el comparador
+emparejaba etiquetas numéricas distintas: `norm()` borra el punto, así que "1.5" era igual a "15", y la
+coincidencia aproximada juntaba "0.5" con "5". En ChartQA casi no pasa (las etiquetas son categorías y
+años); en papers, con ejes 0.1, 0.5, 1e-3, mucho. Ahora las etiquetas numéricas solo se emparejan si son el
+mismo número, y nunca por orden. Todo se re-evaluó (`checker_v3_json/`): sintético y ChartQA no cambian
+(±0.01), papers sube un poco (LoRA + papers 0.747 → **0.753**) y más gráficos pasan a *no sé* (5 % → 9 %)
+porque ya no se comparan celdas mal emparejadas.
+
 ## Qué sigue (ideas)
 
-- **Regla de decisión relativa**: en vez de un umbral absoluto por celda, marcar las celdas cuyo error
-  sobresale frente al error típico de *ese* gráfico (una celda alterada destaca sobre el ruido de lectura
-  del resto). No necesita reentrenar: se prueba con las lecturas que ya tenemos.
+- **Mirar las celdas mal leídas**: las falsas alarmas grandes se concentran en líneas con varias series.
+  Hay que ver a ojo si el lector sigue la línea equivocada en los cruces, se salta puntos o lee en las
+  marcas del eje en vez de en los puntos.
 - **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
   que se podrían recompilar con variaciones de estilo.
 - **Lectura agéntica**: leer primero los ticks y el multiplicador del eje, recortar/ampliar cada serie y
