@@ -185,3 +185,24 @@ def test_arxiv_pgf_tick_labels():
     assert fig(r"xticklabels={}") == []
     assert fig(r"xticklabels={a,b}") == []
     assert fig(r"legend to name=foo") == []
+
+
+def test_relative_rule_and_calibration():
+    from checker import compare
+    from tables import Table
+    rows = [f"r{i}" for i in range(8)]
+    true = [10, 20, 30, 40, 50, 60, 70, 80]
+    noisy = [v * f for v, f in zip(true, [1.08, 0.93, 1.07, 0.92, 1.08, 0.94, 1.06, 0.93])]  # ~7% noise
+    chart = Table("x", ["y"], rows, [[v] for v in noisy])
+    paper_ok = Table("x", ["y"], rows, [[v] for v in true])
+    paper_bad = paper_ok.copy()
+    paper_bad.values[3] = [60]  # 40 -> 60
+    # a fixed 5% tolerance flags the noisy but correct chart; the relative rule does not
+    assert compare(chart, paper_ok, tau=0.05)["verdict"] == "mismatch"
+    assert compare(chart, paper_ok, tau=0.05, rel=3)["verdict"] == "match"
+    assert compare(chart, paper_bad, tau=0.05, rel=3)["verdict"] == "mismatch"
+    # a misread axis (every value 20% high) passes only with calibration
+    high = Table("x", ["y"], rows, [[v * 1.2] for v in true])
+    assert compare(high, paper_ok, tau=0.05, use_scale=False)["verdict"] == "mismatch"
+    assert compare(high, paper_ok, tau=0.05, use_scale=False, calibrate=True)["verdict"] == "match"
+    assert compare(high, paper_bad, tau=0.05, use_scale=False, calibrate=True)["verdict"] == "mismatch"

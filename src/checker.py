@@ -99,8 +99,19 @@ def find_scale(c_vals, t_vals):
     return best
 
 
+def theil_sen(x, y):
+    """Robust line y ~ a*x + b: median of pairwise slopes, so one or two odd cells do not move it."""
+    slopes = sorted((y[j] - y[i]) / (x[j] - x[i]) for i in range(len(x)) for j in range(i + 1, len(x))
+                    if x[j] != x[i])
+    if not slopes:
+        return 1.0, 0.0
+    a = slopes[len(slopes) // 2]
+    b = sorted(yi - a * xi for xi, yi in zip(x, y))[len(x) // 2]
+    return a, b
+
+
 def compare(chart, table, spread=None, tau=0.05, k=0.0, s_max=None, floor=0.05,
-            use_scale=True, min_coverage=0.5):
+            use_scale=True, min_coverage=0.5, rel=None, calibrate=False, min_cells_rel=4):
     """Check a chart table against a paper table.
 
     chart, table : tables.Table (chart = median of the readings)
@@ -108,6 +119,11 @@ def compare(chart, table, spread=None, tau=0.05, k=0.0, s_max=None, floor=0.05,
     tau          : base tolerance, relative (0.05 = 5%)
     k            : weight of the spread; k = 0 gives the fixed tolerance
     s_max        : if a cell's relative spread is above this, we cannot read it -> "not sure"
+    rel          : relative rule. A cell is flagged only if its gap is also above rel x the median gap
+                   of this chart (its reading noise): an altered cell stands out from the rest.
+                   Used when the chart has at least min_cells_rel cells.
+    calibrate    : first fit chart ~ a*table + b (Theil-Sen) and compare with the fitted values, so a
+                   misread axis (all values off the same way) is not taken for a mismatch
     Returns a dict the web page can show: verdict, note, differences, plus details.
     """
     spread = spread or {}
@@ -127,13 +143,17 @@ def compare(chart, table, spread=None, tau=0.05, k=0.0, s_max=None, floor=0.05,
     scale = find_scale([cc[a] for a, _ in pairs], [tc[b] for _, b in pairs]) if use_scale else 1
     biggest = max(abs(scale * tc[b]) for _, b in pairs) or 1.0
 
+    xs, ys = [scale * tc[b] for _, b in pairs], [cc[a] for a, _ in pairs]
+    fa, fb = theil_sen(xs, ys) if calibrate and len(pairs) >= min_cells_rel else (1.0, 0.0)
+    gaps = [abs(c - (fa * t + fb)) / max(abs(t), floor * biggest, 1e-12) for t, c in zip(xs, ys)]
+    noise = sorted(gaps)[len(gaps) // 2] if rel and len(gaps) >= min_cells_rel else 0.0
+
     cells, differences, unreadable = [], [], 0
-    for a, b in pairs:
+    for (a, b), gap in zip(pairs, gaps):
         c, t = cc[a], scale * tc[b]
         ref = max(abs(t), floor * biggest, 1e-12)
-        gap = abs(c - t) / ref
         s = spread.get(a, 0.0) / ref
-        tol = max(tau, k * s)
+        tol = max(tau, k * s, (rel or 0) * noise)
         flagged = gap > tol
         readable = s_max is None or s <= s_max
         cell = {"row": b[0], "series": b[1], "chart": round(c, 6), "table": tc[b],
