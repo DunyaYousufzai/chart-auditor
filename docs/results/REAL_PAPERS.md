@@ -129,11 +129,36 @@ mismo número, y nunca por orden. Todo se re-evaluó (`checker_v3_json/`): sint�
 (±0.01), papers sube un poco (LoRA + papers 0.747 → **0.753**) y más gráficos pasan a *no sé* (5 % → 9 %)
 porque ya no se comparan celdas mal emparejadas.
 
+## Revisión a ojo de las falsas alarmas
+
+12 falsas alarmas al azar del LoRA + papers (imagen, tabla real y lectura, lado a lado):
+
+| Tipo | Casos | Ejemplo |
+|---|---|---|
+| Tolerancia demasiado estricta: el lector acierta a 1–2 px, pero el valor es chico frente al eje | 5 | 1.7 vs 1.29 en un eje 0–60 (0.7 % del eje, 32 % del valor); lecturas redondeadas a enteros en un eje 20–60 |
+| Error real del lector | 6 | números escritos sobre las barras, chicos o rotados, mal leídos o cambiados de serie; una barra chica leída como 0; dos curvas inventadas planas; puntos donde las líneas se tocan |
+| Imagen rota | 1 | etiquetas del eje encimadas ("FReent Own") |
+
+Medido sobre las 246 falsas alarmas, con el peor error expresado como fracción del rango de valores del
+gráfico (≈ el eje):
+
+| Peor error / rango | Falsas alarmas | Detecciones correctas |
+|---|---|---|
+| < 4 % (problema de tolerancia) | 37 (15 %) | 32 |
+| 4–10 % | 31 | 43 |
+| ≥ 10 % (lectura mal) | **178 (72 %)** | 363 |
+
+La muestra exageraba el problema de tolerancia: **la mayoría de las falsas alarmas son lecturas muy
+erróneas** (≥ 10 % del eje), no umbrales mal puestos. Medir el error contra el rango del eje quitaría
+~37 falsas alarmas pero también ~32 detecciones, así que no compensa. El cuello de botella es el lector.
+Dos pistas concretas: las imágenes son de 420 px (texto de 5–6 px de alto) y los errores grandes se
+concentran en números escritos chicos/rotados y en líneas que se tocan.
+
 ## Qué sigue (ideas)
 
-- **Mirar las celdas mal leídas**: las falsas alarmas grandes se concentran en líneas con varias series.
-  Hay que ver a ojo si el lector sigue la línea equivocada en los cruces, se salta puntos o lee en las
-  marcas del eje en vez de en los puntos.
+- **Imágenes en alta resolución**: todas las imágenes de DaTikZ son de 420×420 px; Qwen las ve con unos
+  ~200 tokens visuales. Tenemos el código TikZ de cada gráfico, así que se pueden recompilar a 200 dpi y
+  leer los mismos gráficos: es el experimento directo para saber cuánto del error es resolución.
 - **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
   que se podrían recompilar con variaciones de estilo.
 - **Lectura agéntica**: leer primero los ticks y el multiplicador del eje, recortar/ampliar cada serie y
