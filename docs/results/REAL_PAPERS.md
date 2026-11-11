@@ -66,11 +66,40 @@ Celdas ±5 % por tipo (todo el test, mediana de N):
    etiquetas ocultas y leyendas fuera de la imagen. Con el extractor corregido (commit c1b13a3) el LoRA pasa
    de 48.9 % a 52.0 %.
 
+## LoRA etapa 2: entrenado con gráficos LaTeX reales
+
+Partimos del LoRA anterior (ya fusionado) y entrenamos un segundo LoRA r=16 con **1.047 gráficos pgfplots**
+de DaTikZ (arXiv + tex.stackexchange) ×3, más 1.100 sintéticos y 1.100 de ChartQA para no olvidar.
+**Ningún paper de test o val aparece en el entrenamiento** (se excluye el paper entero, no solo la figura:
+`arxiv_pgf.py pairs --exclude`). 668 pasos, lote efectivo 16, lr 1e-4, RTX 4090, 1 h 05 min, 13.9 GB.
+Pérdida val en papers 0.79 → 0.57; en ChartQA no sube (0.02–0.06). Log y config: `real_json/train_*`.
+
+| Lector | Set | Celdas ±5 % | F1 τ ajustado | F1 adaptativo |
+|---|---|---|---|---|
+| Qwen + LoRA | arXiv, todo | 52.0 % | 0.742 | 0.723 |
+| **Qwen + LoRA + papers** | arXiv, todo | **60.6 %** | **0.747** | 0.738 |
+| Qwen + LoRA | arXiv, con nombres | 58.8 % | 0.737 | 0.723 |
+| **Qwen + LoRA + papers** | arXiv, con nombres | **62.9 %** | 0.745 | 0.737 |
+| Qwen + LoRA | ChartQA | 97.7 % | 0.94 | 0.95 |
+| **Qwen + LoRA + papers** | ChartQA | 97.6 % | 0.941 | 0.951 |
+
+Por tipo: barras verticales 69 % → **74 %**, líneas 43 % → **53 %**, con números escritos 70 % → **80 %**.
+
+7. **Entrenar con el estilo de los papers sí mejora la lectura** (+8.6 puntos, +10 en líneas) **sin olvidar
+   ChartQA** (97.6 %, F1 0.95). La lectura en papers pasa de 44 % (base) a 61 % en dos etapas de LoRA.
+8. **Pero la detección no se mueve** (F1 0.742 → 0.747). La mitad de los gráficos correctos se siguen
+   marcando como mismatch (56 %). El motivo es estructural: el veredicto del gráfico dice mismatch si
+   *cualquier* celda se pasa del umbral, y un gráfico de papers tiene 10–40 celdas. Con 60 % de celdas
+   dentro del ±5 %, casi todos los gráficos tienen alguna celda fuera aunque coincidan con la tabla. Para
+   bajar las falsas alarmas haría falta ~99 % por celda, o una regla de decisión distinta.
+
 ## Qué sigue (ideas)
 
-- **LoRA con gráficos de papers reales**: quedan ~850 gráficos DaTikZ sin usar (más los de arXiv 2026), con
-  tabla exacta. Es un set de entrenamiento con el estilo LaTeX, que no tiene ningún trabajo previo que
-  conozcamos.
+- **Regla de decisión relativa**: en vez de un umbral absoluto por celda, marcar las celdas cuyo error
+  sobresale frente al error típico de *ese* gráfico (una celda alterada destaca sobre el ruido de lectura
+  del resto). No necesita reentrenar: se prueba con las lecturas que ya tenemos.
+- **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
+  que se podrían recompilar con variaciones de estilo.
 - **Lectura agéntica**: leer primero los ticks y el multiplicador del eje, recortar/ampliar cada serie y
   convertir píxeles a valores; el modelo decide qué zona mirar.
 - **Tolerancia según lo que el gráfico permite**: un valor escrito sobre la barra se puede verificar al
