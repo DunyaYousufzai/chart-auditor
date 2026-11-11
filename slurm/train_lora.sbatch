@@ -4,6 +4,7 @@
 # e.g. a 20-step smoke test:
 #   bash slurm/sbatch.sh --gres=gpu:h100:1 --time=00:40:00 slurm/train_lora.sbatch smoke \
 #        --limit-train 200 --limit-val 16 --max-steps 20 --eval-every 10
+# Optional env vars: BASE (model to start from, e.g. an earlier merged LoRA), TRAIN, VAL (manifests).
 #SBATCH --job-name=ca-lora
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
@@ -15,8 +16,8 @@ RUN=$1; shift
 OUT=outputs/lora/$RUN
 mkdir -p "$PROJ_STORE/outputs/lora"; [ -e outputs/lora ] || ln -s "$PROJ_STORE/outputs/lora" outputs/lora
 nvidia-smi --query-gpu=name,memory.total --format=csv
-gpu_py src/train_lora.py --out "$OUT" \
-  --train data/synthetic_v2/train/manifest.jsonl data/chartqa_pairs/train/manifest.jsonl \
-  --val   data/synthetic_v2/val/manifest.jsonl   data/chartqa_pairs/val/manifest.jsonl \
-  "$@"
-gpu_py src/merge_lora.py --adapter "$OUT/adapter" --out "$OUT/merged"
+BASE=${BASE:-Qwen/Qwen3-VL-4B-Instruct}
+TRAIN=${TRAIN:-"data/synthetic_v2/train/manifest.jsonl data/chartqa_pairs/train/manifest.jsonl"}
+VAL=${VAL:-"data/synthetic_v2/val/manifest.jsonl data/chartqa_pairs/val/manifest.jsonl"}
+gpu_py src/train_lora.py --out "$OUT" --model "$BASE" --train $TRAIN --val $VAL "$@"
+gpu_py src/merge_lora.py --base "$BASE" --adapter "$OUT/adapter" --out "$OUT/merged"
