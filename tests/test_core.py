@@ -206,3 +206,16 @@ def test_relative_rule_and_calibration():
     assert compare(high, paper_ok, tau=0.05, use_scale=False)["verdict"] == "mismatch"
     assert compare(high, paper_ok, tau=0.05, use_scale=False, calibrate=True)["verdict"] == "match"
     assert compare(high, paper_bad, tau=0.05, use_scale=False, calibrate=True)["verdict"] == "mismatch"
+
+
+def test_numeric_labels_match_only_same_number():
+    from checker import match_names, compare
+    from tables import Table
+    assert match_names(["0.5", "1.5", "5"], ["5", "15", "0.5"]) == {"0.5": "0.5", "5": "5"}
+    assert match_names(["1e-04", "2019.0", "10%"], ["0.0001", "2019", "10"]) == \
+        {"1e-04": "0.0001", "2019.0": "2019", "10%": "10"}
+    assert match_names(["ResNet-50"], ["resnet50"]) == {"ResNet-50": "resnet50"}
+    # reader read x at 2,4,6 but the table has 1,2,3: only x=2 is compared, no pairing by order
+    chart = Table("x", ["y"], ["2", "4", "6"], [[20], [40], [60]])
+    table = Table("x", ["y"], ["1", "2", "3"], [[10], [20], [30]])
+    assert compare(chart, table, min_coverage=0.0)["checked"] == 1

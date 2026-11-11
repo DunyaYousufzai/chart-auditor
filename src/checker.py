@@ -17,6 +17,8 @@ import difflib
 import re
 import statistics
 
+from tables import _is_num, parse_number
+
 SCALES = [1, 1000, 1e-3, 1e6, 1e-6, 100, 0.01]
 
 
@@ -28,9 +30,32 @@ def norm(label):
     return re.sub(r"[^a-z0-9%]", "", s)
 
 
+def num_label(label):
+    """A label that is a plain number ('0.5', '1e-3', '2019') as a float, else None."""
+    t = str(label).strip()
+    return parse_number(t) if t and _is_num(t) else None
+
+
 def match_names(chart_names, table_names, cutoff=0.6):
-    """Return {chart_name: table_name}. Exact (normalised) first, then fuzzy, one-to-one."""
+    """Return {chart_name: table_name}. Exact (normalised) first, then fuzzy, one-to-one.
+
+    Numeric labels (x values like 0.5 or 1e-3) match only the same number: norm() drops the
+    dot, so "1.5" would equal "15" and fuzzy matching would pair "0.5" with "5".
+    """
     out, used = {}, set()
+    tnum = {t: num_label(t) for t in table_names}
+    for c in chart_names:
+        cv = num_label(c)
+        if cv is None:
+            continue
+        for t, tv in tnum.items():
+            if tv is not None and t not in used and abs(cv - tv) <= 1e-9 * max(1.0, abs(tv)):
+                out[c] = t
+                used.add(t)
+                break
+    numeric = {c for c in chart_names if num_label(c) is not None}
+    table_names = [t for t in table_names if tnum[t] is None or t in used]
+    chart_names = [c for c in chart_names if c not in numeric]
     tnorm = {norm(t): t for t in table_names}
     for c in chart_names:
         t = tnorm.get(norm(c))
@@ -78,7 +103,8 @@ def align(chart, table):
     if len(col_map) < min(len(chart.series), len(table.series)) and len(chart.series) == len(table.series):
         col_map = dict(zip(chart.series, table.series))
     row_map = match_names(chart.rows, table.rows)
-    if not row_map and len(chart.rows) == len(table.rows):
+    all_num = all(num_label(r) is not None for r in list(chart.rows) + list(table.rows))
+    if not row_map and len(chart.rows) == len(table.rows) and not all_num:
         row_map = dict(zip(chart.rows, table.rows))
 
     pairs = []
