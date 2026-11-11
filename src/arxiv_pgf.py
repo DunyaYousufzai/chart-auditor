@@ -394,6 +394,13 @@ def cmd_pairs(args):
     if args.origin:
         figs = [p for p in figs if json.loads((p / "meta.json").read_text()).get("origin", "arxiv") == args.origin]
     random.Random(args.seed).shuffle(figs)
+    if args.exclude:
+        # training split: drop every figure of a paper that is in test or val, not only the same figures
+        seen = [json.loads(l) for m in args.exclude for l in open(m)]
+        ids, papers = {r["id"] for r in seen}, {r["paper"] for r in seen}
+        figs = [d for d in figs if f"arxiv_{d.name}" not in ids
+                and json.loads((d / "meta.json").read_text()).get("paper") not in papers]
+        print(f"{len(figs)} figures left after excluding {len(papers)} papers")
     figs = figs[args.skip:]  # e.g. --skip 1000 for a val split that does not overlap test
     if args.limit:
         figs = figs[:args.limit]
@@ -447,6 +454,8 @@ def main():
     p.add_argument("--origin", default=None, help="keep figures with this origin in meta.json (e.g. arxiv)")
     p.add_argument("--limit", type=int, default=None)
     p.add_argument("--skip", type=int, default=0, help="skip the first n shuffled figures")
+    p.add_argument("--exclude", nargs="+", default=None,
+                   help="manifests whose figures and papers must not be used (e.g. test and val)")
     args = ap.parse_args()
     {"fetch": cmd_fetch, "extract": cmd_extract, "compile": cmd_compile, "pairs": cmd_pairs}[args.cmd](args)
 
