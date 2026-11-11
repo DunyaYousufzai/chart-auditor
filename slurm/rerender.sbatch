@@ -1,6 +1,6 @@
 #!/bin/bash
 # Re-render DaTikZ test and val charts at high resolution (CPU only). Usage:
-#   sbatch --nodes=1 --partition=epyc2 --account=gratis --qos=job_cpu slurm/rerender.sbatch [size]
+#   sbatch --nodes=1 --partition=epyc2 --account=gratis --qos=job_gratis slurm/rerender.sbatch [size]
 #SBATCH --job-name=ca-rerender
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=16G
