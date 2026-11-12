@@ -177,12 +177,31 @@ nueva conserva la proporción real. Comparamos sobre exactamente los 987 gráfic
   recall y menos "not sure", pero las falsas alarmas siguen en ~49 %: leer mejor no alcanza si la lectura
   todavía falla en algunas celdas de casi todos los gráficos.
 - Costo: ~0.6 s por gráfico con N = 9 (frente a ~0.4 s a 420 px).
-- Siguiente paso obvio: re-entrenar el LoRA etapa 2 con imágenes en alta resolución.
+
+### LoRA etapa 2 re-entrenado con imágenes en alta resolución
+
+Recompilamos también el set de entrenamiento (1.029 de 1.047 gráficos compilan) y re-entrenamos la etapa 2
+igual que antes (misma base, misma mezcla papers ×3 + sintéticos + ChartQA, mismos hiperparámetros),
+cambiando solo las imágenes y `--max-side 1280` (antes 1024, que habría achicado las imágenes nuevas);
+batch 1 × grad-accum 16 = mismo batch efectivo. 1 h 48 min en una GPU. Pérdida val en papers: mejor 0.481
+(antes 0.507), en ambos casos en el paso 200; después sobreajusta y se guarda el mejor punto.
+Log y config: `hires_json/train_qwen4b_r16_real_hr_*`.
+
+Mismos 987 gráficos de test, todos a 1260 px:
+
+| LoRA etapa 2 entrenado con | Celdas ±5 % | F1 (umbral de val) | P / R / F1 con umbral 5 % | Falsa alarma en match (5 %) | Recall cambios de 2 % |
+|---|---|---|---|---|---|
+| imágenes de 420 px | 68.6 % | 0.777 | 0.689 / 0.892 / 0.777 | 41.7 % | 50 % |
+| imágenes de 1260 px | 68.7 % | **0.790** | 0.700 / 0.888 / 0.783 | **38.9 %** | **80 %** |
+
+- **La lectura no mejora**: la ganancia venía de la imagen de entrada y el LoRA anterior ya la aprovechaba.
+- **La detección mejora un poco**: F1 0.777 → 0.790 (el umbral elegido en val baja a 2 %, más recall) y
+  detecta mucho mejor los cambios chicos. Es una diferencia pequeña; no medimos su significancia.
+- **Sin olvido**: en ChartQA lee 97.6 % de celdas y F1 0.941, igual que el LoRA anterior.
+- Resumen del camino en papers: Qwen base a 420 px F1 0.745 → LoRA etapa 2 en alta resolución 0.790.
 
 ## Qué sigue (ideas)
 
-- **LoRA con imágenes en alta resolución**: el set de entrenamiento también tiene código TikZ, así que se
-  puede recompilar a 1260 px y re-entrenar.
 - **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
   que se podrían recompilar con variaciones de estilo.
 - **Lectura agéntica**: leer primero los ticks y el multiplicador del eje, recortar/ampliar cada serie y
