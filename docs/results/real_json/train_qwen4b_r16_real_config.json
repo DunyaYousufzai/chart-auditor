@@ -1,0 +1,29 @@
+{
+  "model": "outputs/lora/qwen4b_r16/merged",
+  "train": [
+    "data/datikz_pgf/train/manifest.jsonl",
+    "data/datikz_pgf/train/manifest.jsonl",
+    "data/datikz_pgf/train/manifest.jsonl",
+    "data/synthetic_v2/train/manifest.jsonl",
+    "data/chartqa_pairs/train/manifest.jsonl"
+  ],
+  "val": [
+    "data/datikz_pgf/val/manifest.jsonl",
+    "data/synthetic_v2/val/manifest.jsonl",
+    "data/chartqa_pairs/val/manifest.jsonl"
+  ],
+  "limit_train": 1100,
+  "limit_val": 100,
+  "out": "outputs/lora/qwen4b_r16_real",
+  "epochs": 2,
+  "max_steps": null,
+  "lr": 0.0001,
+  "batch": 2,
+  "grad_accum": 8,
+  "r": 16,
+  "alpha": 32,
+  "dropout": 0.05,
+  "max_side": 1024,
+  "eval_every": 100,
+  "seed": 0
+}

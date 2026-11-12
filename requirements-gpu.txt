@@ -1,0 +1,9 @@
+# GPU environment for UBELIX (readers, later LoRA). vLLM pulls a matching CUDA torch.
+vllm>=0.11
+transformers>=4.57
+accelerate
+huggingface_hub
+pillow
+pandas
+matplotlib
+scipy

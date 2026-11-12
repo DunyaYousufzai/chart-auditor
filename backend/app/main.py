@@ -1,11 +1,18 @@
-import io
+import sys
+from pathlib import Path
 
-import pandas as pd
-from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
+# The checker and table code live in src/ (shared with the experiments).
+# In Docker they are copied to /app/src; when run from the repo they are in ../../src.
+for p in (Path(__file__).resolve().parents[1] / "src", Path(__file__).resolve().parents[2] / "src"):
+    if p.is_dir() and str(p) not in sys.path:
+        sys.path.insert(0, str(p))
 
-from app.checker import compare
-from app.reader import read_chart
+from fastapi import FastAPI, File, HTTPException, UploadFile  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+from app.reader import read_chart  # noqa: E402
+from checker import compare  # noqa: E402
+from tables import from_csv  # noqa: E402
 
 app = FastAPI(title="Chart Auditor API")
 
@@ -23,28 +30,26 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
+
 # @app.post("/check") is the same for /check, but with POST, which means “I am sending you something” (our two files).
 @app.post("/check")
 async def check(chart: UploadFile = File(...), table: UploadFile = File(...)):
-    # 1. Read the table
+    # 1. Read the table: labels in the first column, one column per series
     raw = await table.read()
     try:
-        df = pd.read_csv(io.BytesIO(raw))
-        # df.iloc[:, 0] is the first column (labels) and df.iloc[:, 1] is the second column (numbers).
-        labels = df.iloc[:, 0].astype(str)
-        values = pd.to_numeric(df.iloc[:, 1])
-        table_values = {l: float(v) for l, v in zip(labels, values)}
+        paper = from_csv(raw.decode("utf-8-sig"))
+        if not paper.cells():
+            raise ValueError("no numbers")
     except Exception:
-        # HTTPException(status_code=400, ...) sends a clear error if the CSV is bad. 400 means “your request has a problem”. 
-        # The message tells the user how to fix it.
+        # 400 means “your request has a problem”. The message tells the user how to fix it.
         raise HTTPException(
             status_code=400,
-            detail="Could not read the table. Use a CSV with labels in the first column and numbers in the second.",
+            detail="Could not read the table. Use a CSV with labels in the first column and numbers in the other columns.",
         )
 
     # 2. Read the chart (fake for now)
     image_bytes = await chart.read()
-    chart_values = read_chart(chart.filename, image_bytes, table_values)
+    chart_table, spread = read_chart(chart.filename, image_bytes, paper)
 
-    # 3. Compare and answer
-    return compare(chart_values, table_values)
+    # 3. Compare and answer (same keys as before: verdict, note, differences, plus details)
+    return compare(chart_table, paper, spread)

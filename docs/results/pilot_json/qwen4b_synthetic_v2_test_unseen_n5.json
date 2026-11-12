@@ -1,0 +1,176 @@
+{
+  "manifest": "data/synthetic_v2/test_unseen/manifest.jsonl",
+  "readings": "outputs/readings/qwen4b_synthetic_v2_test_unseen_n9.jsonl",
+  "n_charts": 200,
+  "model": "Qwen/Qwen3-VL-4B-Instruct",
+  "task": "read",
+  "n_use": 5,
+  "seconds_per_chart": 0.2572000000000012,
+  "reading": {
+    "first_reading": {
+      "cell_acc": 0.923098033910534,
+      "mean_rel_err": 0.04222827714742918,
+      "coverage": 0.9811111111111112,
+      "rnss": 0.9719505328116592,
+      "parsed": 1.0
+    },
+    "median_of_n": {
+      "cell_acc": 0.9200479497354499,
+      "mean_rel_err": 0.04718509635231315,
+      "coverage": 0.9761111111111112,
+      "rnss": 0.9681800258442641,
+      "parsed": 1.0
+    },
+    "median_by": {
+      "chart_type=bar": {
+        "cell_acc": 0.9178910181958965,
+        "mean_rel_err": 0.04663611025637792,
+        "coverage": 0.9769647696476965,
+        "rnss": 0.9688260088409937,
+        "parsed": 1.0
+      },
+      "chart_type=line": {
+        "cell_acc": 0.9298739711934156,
+        "mean_rel_err": 0.04968603301157366,
+        "coverage": 0.9722222222222222,
+        "rnss": 0.9652372144147159,
+        "parsed": 1.0
+      },
+      "n_series=1": {
+        "cell_acc": 0.9037365311087937,
+        "mean_rel_err": 0.05481346040371724,
+        "coverage": 0.9708029197080292,
+        "rnss": 0.962466533073288,
+        "parsed": 1.0
+      },
+      "n_series=2": {
+        "cell_acc": 0.9839285714285714,
+        "mean_rel_err": 0.010440344346944316,
+        "coverage": 1.0,
+        "rnss": 0.9895596556530557,
+        "parsed": 1.0
+      },
+      "n_series=3": {
+        "cell_acc": 0.920006613756614,
+        "mean_rel_err": 0.055791540821797034,
+        "coverage": 0.9722222222222222,
+        "rnss": 0.9694107924984046,
+        "parsed": 1.0
+      },
+      "value_labels=False": {
+        "cell_acc": 0.9034099089371199,
+        "mean_rel_err": 0.05361957274434093,
+        "coverage": 0.9727891156462585,
+        "rnss": 0.9590389283200568,
+        "parsed": 1.0
+      },
+      "value_labels=True": {
+        "cell_acc": 0.9661949685534592,
+        "mean_rel_err": 0.029338529755556862,
+        "coverage": 0.9853249475890985,
+        "rnss": 0.9935336359585744,
+        "parsed": 1.0
+      }
+    }
+  },
+  "readings_used": 5.0,
+  "detection_fixed_5pct": {
+    "n": 200,
+    "precision": 0.7747747747747747,
+    "recall": 0.8349514563106796,
+    "f1": 0.8037383177570093,
+    "not_sure_rate": 0.02,
+    "strict_precision": 0.7652173913043478,
+    "strict_recall": 0.8380952380952381,
+    "strict_f1": 0.8,
+    "accuracy": 0.77,
+    "params": {
+      "tau": 0.05,
+      "k": 0.0,
+      "s_max": null
+    },
+    "recall_by_size": {
+      "0.02": 0.333,
+      "0.05": 0.609,
+      "0.1": 0.846,
+      "0.25": 1.0,
+      "0.5": 1.0,
+      "null": 1.0
+    },
+    "recall_by_kind": {
+      "decimal": 1.0,
+      "swap": 1.0,
+      "value": 0.753
+    },
+    "false_alarm_by_kind": {
+      "match": 0.267,
+      "rescaled": 0.2
+    }
+  },
+  "detection_fixed": {
+    "n": 200,
+    "precision": 0.7747747747747747,
+    "recall": 0.8349514563106796,
+    "f1": 0.8037383177570093,
+    "not_sure_rate": 0.02,
+    "strict_precision": 0.7652173913043478,
+    "strict_recall": 0.8380952380952381,
+    "strict_f1": 0.8,
+    "accuracy": 0.77,
+    "params": {
+      "tau": 0.05,
+      "k": 0.0,
+      "s_max": null
+    },
+    "recall_by_size": {
+      "0.02": 0.333,
+      "0.05": 0.609,
+      "0.1": 0.846,
+      "0.25": 1.0,
+      "0.5": 1.0,
+      "null": 1.0
+    },
+    "recall_by_kind": {
+      "decimal": 1.0,
+      "swap": 1.0,
+      "value": 0.753
+    },
+    "false_alarm_by_kind": {
+      "match": 0.267,
+      "rescaled": 0.2
+    }
+  },
+  "detection_adaptive": {
+    "n": 200,
+    "precision": 0.7619047619047619,
+    "recall": 0.9320388349514563,
+    "f1": 0.8384279475982533,
+    "not_sure_rate": 0.02,
+    "strict_precision": 0.7538461538461538,
+    "strict_recall": 0.9333333333333333,
+    "strict_f1": 0.8340425531914893,
+    "accuracy": 0.795,
+    "params": {
+      "tau": 0.03,
+      "k": 4,
+      "s_max": null
+    },
+    "recall_by_size": {
+      "0.02": 0.667,
+      "0.05": 0.87,
+      "0.1": 0.846,
+      "0.25": 1.0,
+      "0.5": 1.0,
+      "null": 1.0
+    },
+    "recall_by_kind": {
+      "decimal": 1.0,
+      "swap": 1.0,
+      "value": 0.883
+    },
+    "false_alarm_by_kind": {
+      "match": 0.333,
+      "rescaled": 0.0
+    }
+  }
+}
