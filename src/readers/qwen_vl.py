@@ -58,14 +58,26 @@ class QwenVLLMReader:
 
 
 class QwenHFReader:
-    def __init__(self, model=DEFAULT_MODEL, max_new_tokens=1024, device_map="auto", max_side=None, **_):
+    def __init__(self, model=DEFAULT_MODEL, max_new_tokens=1024, device_map="auto", max_side=None,
+                 quantization=None, **_):
+        """quantization: None (bf16), "bnb4" (4-bit NF4) or "bnb8" (8-bit), both with bitsandbytes.
+        vLLM 0.32 has no bitsandbytes, so 4-bit without a calibrated checkpoint goes through here."""
         import torch
         from transformers import AutoModelForImageTextToText, AutoProcessor
         self.torch = torch
         self.processor = AutoProcessor.from_pretrained(model)
         dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float32
-        self.model = AutoModelForImageTextToText.from_pretrained(model, dtype=dtype, device_map=device_map)
+        kw = {}
+        if quantization in ("bnb4", "bnb8"):
+            from transformers import BitsAndBytesConfig
+            kw["quantization_config"] = (
+                BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=dtype)
+                if quantization == "bnb4" else BitsAndBytesConfig(load_in_8bit=True))
+        elif quantization:
+            raise ValueError(f"unknown quantization for the transformers reader: {quantization}")
+        self.model = AutoModelForImageTextToText.from_pretrained(model, dtype=dtype, device_map=device_map, **kw)
         self.model.eval()
+        print(f"model weights: {self.model.get_memory_footprint() / 2**30:.2f} GiB", flush=True)
         self.max_new_tokens = max_new_tokens
         self.max_side = max_side
         self.name = model
