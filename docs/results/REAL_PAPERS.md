@@ -200,6 +200,25 @@ Mismos 987 gráficos de test, todos a 1260 px:
 - **Sin olvido**: en ChartQA lee 97.6 % de celdas y F1 0.941, igual que el LoRA anterior.
 - Resumen del camino en papers: Qwen base a 420 px F1 0.745 → LoRA etapa 2 en alta resolución 0.790.
 
+## Cuantización FP8
+
+El mejor modelo (LoRA etapa 2 en alta resolución) cuantizado al vuelo a FP8 con vLLM (`--quantization fp8`,
+pesos en 8 bits), misma GPU (RTX 4090), mismos gráficos y mismo N = 9. Umbral elegido en val, como siempre.
+
+| Modelo | Pesos en GPU | Papers: celdas ±5 % | Papers: F1 | ChartQA: celdas ±5 % | ChartQA: F1 | s/gráfico (papers / ChartQA) |
+|---|---|---|---|---|---|---|
+| bf16 (16 bits) | 8.53 GB | 68.7 % | 0.790 | 97.6 % | 0.941 | 0.63 / 0.29 |
+| **FP8 (8 bits)** | **4.98 GB** | 69.4 % | 0.788 | 97.5 % | 0.938 | 0.61 / 0.25 |
+
+- **FP8 no pierde nada medible**: lectura y F1 quedan dentro de ±0.01 en los dos sets, con 42 % menos
+  memoria para los pesos y un poco más rápido. Con umbral fijo de 5 % las falsas alarmas en papers quedan
+  igual (40 % frente a 39 %).
+- La memoria total de la GPU casi no cambia (~20 GB) porque vLLM reserva el resto para la caché; lo que
+  baja es lo que ocupa el modelo, que es lo que decide en qué GPU cabe.
+- **4 bits no corrió**: la versión de vLLM del contenedor (0.32) ya no tiene `bitsandbytes`; los métodos
+  de 4 bits que quedan (AWQ, GPTQ) necesitan un checkpoint cuantizado de antemano con datos de calibración.
+- Resultados: `quant_json/`.
+
 ## Qué sigue (ideas)
 
 - **Más datos de papers**: con 1.047 gráficos el LoRA ya sube 8.6 puntos; DaTikZ tiene más figuras TikZ
