@@ -215,9 +215,26 @@ pesos en 8 bits), misma GPU (RTX 4090), mismos gráficos y mismo N = 9. Umbral e
   igual (40 % frente a 39 %).
 - La memoria total de la GPU casi no cambia (~20 GB) porque vLLM reserva el resto para la caché; lo que
   baja es lo que ocupa el modelo, que es lo que decide en qué GPU cabe.
-- **4 bits no corrió**: la versión de vLLM del contenedor (0.32) ya no tiene `bitsandbytes`; los métodos
-  de 4 bits que quedan (AWQ, GPTQ) necesitan un checkpoint cuantizado de antemano con datos de calibración.
+- La versión de vLLM del contenedor (0.32) ya no tiene `bitsandbytes`; los métodos de 4 bits que quedan
+  (AWQ, GPTQ) necesitan un checkpoint cuantizado de antemano con datos de calibración. Por eso 4 bits va
+  por transformers (abajo).
 - Resultados: `quant_json/`.
+
+### 4 bits (NF4, bitsandbytes, con transformers)
+
+Mismo modelo cuantizado al cargar a 4 bits NF4 (`QwenHFReader(quantization="bnb4")`). Como transformers
+es más lento que vLLM, la referencia justa es el mismo modelo en bf16 **también con transformers**.
+Mismos 987 gráficos de papers, N = 9, RTX 4090.
+
+| Modelo (transformers) | Pesos | Memoria GPU pico | Papers: celdas ±5 % | Papers: F1 (umbral de val) | Papers: F1 (umbral fijo 5 %) | s/gráfico |
+|---|---|---|---|---|---|---|
+| bf16 | 8.27 GiB | 14.4 GB | 68.0 % | 0.790 | 0.784 | 5.2 |
+| **NF4 (4 bits)** | **2.62 GiB** | **9.0 GB** | 65.4 % | 0.765 | 0.765 | 6.9 |
+
+- **4 bits sí cuesta algo**: −2.6 puntos de lectura y −0.02 de F1, a cambio de pesos 3× más chicos.
+  Con FP8 no se perdía nada, así que **FP8 es el punto dulce**; 4 bits sirve si la GPU tiene ~10 GB.
+- Es más lento (6.9 frente a 5.2 s/gráfico): bitsandbytes descomprime los pesos en cada paso.
+- En ChartQA la lectura casi no cambia (97.2 % frente a 97.6 % en bf16 con vLLM).
 
 ## Qué sigue (ideas)
 
