@@ -34,18 +34,18 @@ def plot_detection_modes(data: dict, out_dir: Path, title_prefix: str) -> None:
         return
 
     modes = [k.replace("detection_", "") for k in det_keys]
-    metrics = ["precision", "recall", "f1", "not_sure_rate"]
-    labels = ["Precision", "Recall", "F1", "Not sure rate"]
+    metrics = ["precision", "recall", "f1", "strict_f1", "not_sure_rate"]
+    labels = ["Precision", "Recall", "F1", "Strict F1", "Not sure rate"]
 
     x = list(range(len(modes)))
-    width = 0.8 / len(metrics)
+    width = 0.82 / len(metrics)
 
-    fig, ax = plt.subplots(figsize=(max(7, len(modes) * 1.8), 4.5))
+    fig, ax = plt.subplots(figsize=(max(8, len(modes) * 2.1), 4.6))
     for idx, (m_key, m_label) in enumerate(zip(metrics, labels)):
         vals = [data[k].get(m_key) or 0.0 for k in det_keys]
         offsets = [xi + (idx - (len(metrics) - 1) / 2) * width for xi in x]
         bars = ax.bar(offsets, vals, width=width, label=m_label)
-        ax.bar_label(bars, labels=[f"{v:.2f}" for v in vals], padding=2, fontsize=7)
+        ax.bar_label(bars, labels=[f"{v:.2f}" for v in vals], padding=2, fontsize=6.5)
 
     ax.set_xticks(x)
     ax.set_xticklabels(modes, rotation=15, ha="right")
@@ -53,7 +53,7 @@ def plot_detection_modes(data: dict, out_dir: Path, title_prefix: str) -> None:
     ax.set_ylabel("Score / Rate")
     ax.set_title(f"{title_prefix} — Detection by mode")
     ax.grid(True, axis="y", alpha=0.35)
-    ax.legend(fontsize=8)
+    ax.legend(fontsize=8, ncol=2)
     fig.savefig(out_dir / "detection_modes.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
@@ -71,10 +71,11 @@ def plot_recall_by_size(data: dict, out_dir: Path, title_prefix: str) -> None:
     if not sizes:
         return
 
+    display_labels = ["swap / decimal" if str(s) in ("null", "None") else str(s) for s in sizes]
     x = list(range(len(sizes)))
     width = 0.8 / len(det_keys)
 
-    fig, ax = plt.subplots(figsize=(max(7, len(sizes) * 1.4), 4.5))
+    fig, ax = plt.subplots(figsize=(max(7.5, len(sizes) * 1.45), 4.5))
     for idx, k in enumerate(det_keys):
         mode = k.replace("detection_", "")
         rbs = data[k]["recall_by_size"]
@@ -84,10 +85,10 @@ def plot_recall_by_size(data: dict, out_dir: Path, title_prefix: str) -> None:
         ax.bar_label(bars, labels=[f"{v:.2f}" for v in vals], padding=2, fontsize=7)
 
     ax.set_xticks(x)
-    ax.set_xticklabels([str(s) for s in sizes])
+    ax.set_xticklabels(display_labels, rotation=10, ha="right")
     ax.set_ylim(0, 1.15)
     ax.set_ylabel("Recall")
-    ax.set_xlabel("Change size")
+    ax.set_xlabel("Perturbation size / type without size")
     ax.set_title(f"{title_prefix} — Recall by mismatch size")
     ax.grid(True, axis="y", alpha=0.35)
     ax.legend(fontsize=8)
@@ -96,7 +97,6 @@ def plot_recall_by_size(data: dict, out_dir: Path, title_prefix: str) -> None:
 
 
 def plot_by_kind(data: dict, out_dir: Path, title_prefix: str) -> None:
-    # Choose preferred detection block for recall_by_kind
     preferred = ["detection_adaptive", "detection_fixed", "detection_fixed_5pct", "detection_relative"]
     det_key = next((k for k in preferred if k in data and data[k].get("recall_by_kind")), None)
     if det_key is None:
@@ -106,28 +106,42 @@ def plot_by_kind(data: dict, out_dir: Path, title_prefix: str) -> None:
 
     rbk = data[det_key].get("recall_by_kind") or {}
     fak = data[det_key].get("false_alarm_by_kind") or {}
-    kinds = sorted(set(rbk.keys()) | set(fak.keys()))
-    if not kinds:
+    if not rbk and not fak:
         return
 
-    x = list(range(len(kinds)))
-    width = 0.36
-    rec_vals = [rbk.get(kd) if rbk.get(kd) is not None else 0.0 for kd in kinds]
-    fa_vals = [fak.get(kd) if fak.get(kd) is not None else 0.0 for kd in kinds]
+    # Split match kinds (false alarm rate) vs mismatch kinds (recall)
+    match_kinds = sorted(fak.keys())
+    mismatch_kinds = sorted(k for k in rbk.keys() if k not in fak)
 
-    fig, ax = plt.subplots(figsize=(max(7, len(kinds) * 1.4), 4.5))
-    b1 = ax.bar([xi - width / 2 for xi in x], rec_vals, width=width, label="Recall (mismatch)")
-    b2 = ax.bar([xi + width / 2 for xi in x], fa_vals, width=width, label="False alarm rate (match)")
-    ax.bar_label(b1, labels=[f"{v:.2f}" for v in rec_vals], padding=2, fontsize=7)
-    ax.bar_label(b2, labels=[f"{v:.2f}" for v in fa_vals], padding=2, fontsize=7)
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.3))
 
-    ax.set_xticks(x)
-    ax.set_xticklabels(kinds, rotation=15, ha="right")
-    ax.set_ylim(0, 1.15)
-    ax.set_ylabel("Rate")
-    ax.set_title(f"{title_prefix} — Recall & false alarms by kind ({det_key.replace('detection_', '')})")
-    ax.grid(True, axis="y", alpha=0.35)
-    ax.legend(fontsize=8)
+    # Left: Mismatch kinds -> Recall
+    if mismatch_kinds:
+        vals_rec = [rbk[k] if rbk[k] is not None else 0.0 for k in mismatch_kinds]
+        b1 = axes[0].bar(mismatch_kinds, vals_rec, width=0.5, color="#1f77b4")
+        axes[0].bar_label(b1, labels=[f"{v:.2f}" for v in vals_rec], padding=2, fontsize=8)
+        axes[0].set_ylim(0, 1.15)
+        axes[0].set_ylabel("Recall (higher is better)")
+        axes[0].set_title("Mismatch kinds — Recall")
+        axes[0].grid(True, axis="y", alpha=0.35)
+    else:
+        axes[0].axis("off")
+
+    # Right: Match kinds -> False alarm rate
+    if match_kinds:
+        vals_fa = [fak[k] if fak[k] is not None else 0.0 for k in match_kinds]
+        b2 = axes[1].bar(match_kinds, vals_fa, width=0.45, color="#ff7f0e")
+        axes[1].bar_label(b2, labels=[f"{v:.2f}" for v in vals_fa], padding=2, fontsize=8)
+        axes[1].set_ylim(0, 1.15)
+        axes[1].set_ylabel("False alarm rate (lower is better)")
+        axes[1].set_title("Match kinds — False alarms")
+        axes[1].grid(True, axis="y", alpha=0.35)
+    else:
+        axes[1].axis("off")
+
+    mode_label = det_key.replace("detection_", "")
+    fig.suptitle(f"{title_prefix} — Breakdown by kind ({mode_label})")
+    fig.tight_layout()
     fig.savefig(out_dir / "recall_and_false_alarms_by_kind.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
