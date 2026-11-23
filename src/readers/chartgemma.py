@@ -1,22 +1,23 @@
 """ChartGemma (ahmed-masry/chartgemma, PaliGemma 3B, MIT): instruction model trained on charts.
 
-The model card documents QA, summaries and fact checking but no table-extraction prompt, so we use a
-plain instruction; results should be read as "ChartGemma asked for a table", not its best setting.
+The model card documents QA, summaries and fact checking but no table-extraction prompt, so we use an
+instruction picked from four tried on 3 test charts (the only one that gave tables).
 """
 import torch
 from PIL import Image
 from transformers import AutoProcessor, PaliGemmaForConditionalGeneration
 
-PROMPT = "Generate the underlying data table of the chart."
+PROMPT = "Extract the data table of the chart in markdown format."
 
 
 class ChartGemmaReader:
-    def __init__(self, model="ahmed-masry/chartgemma", device=None, max_new_tokens=512, **_):
+    def __init__(self, model="ahmed-masry/chartgemma", device=None, max_new_tokens=512, prompt=PROMPT, **_):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         dtype = torch.bfloat16 if self.device == "cuda" else torch.float32
         self.processor = AutoProcessor.from_pretrained(model)
         self.model = PaliGemmaForConditionalGeneration.from_pretrained(model, dtype=dtype).to(self.device).eval()
         self.max_new_tokens = max_new_tokens
+        self.prompt = prompt
         self.name = model
 
     @torch.inference_mode()
@@ -24,7 +25,7 @@ class ChartGemmaReader:
         torch.manual_seed(seed)
         results = []
         for p in image_paths:
-            inputs = self.processor(text=PROMPT, images=Image.open(p).convert("RGB"), return_tensors="pt")
+            inputs = self.processor(text="<image>" + self.prompt, images=Image.open(p).convert("RGB"), return_tensors="pt")
             inputs = {k: v.to(self.device) for k, v in inputs.items()}
             if "pixel_values" in inputs:
                 inputs["pixel_values"] = inputs["pixel_values"].to(self.model.dtype)
