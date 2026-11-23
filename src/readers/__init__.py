@@ -25,6 +25,15 @@ def get_reader(name, **kw):
     if name == "chartgemma":
         from readers.chartgemma import ChartGemmaReader
         return ChartGemmaReader(**kw)
+    if name == "claude":
+        from readers.api_claude import ClaudeReader
+        return ClaudeReader(**kw)
+    if name == "openai":
+        from readers.api_openai import OpenAIReader
+        return OpenAIReader(**kw)
+    if name == "gemini":
+        from readers.api_gemini import GeminiReader
+        return GeminiReader(**kw)
     if name == "simulated":
         from readers.simulated import SimulatedReader
         return SimulatedReader(**kw)
