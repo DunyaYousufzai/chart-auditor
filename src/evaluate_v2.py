@@ -24,7 +24,7 @@ from tables import from_csv, parse_model_output
 TAUS = [0.02, 0.03, 0.05, 0.08, 0.10, 0.15]
 
 
-def load(manifest, readings, subset=None, oracle=False):
+def load(manifest, readings, subset=None, oracle=False, n_use=None):
     manifest = Path(manifest)
     root = manifest.parent.parent
     recs = [json.loads(l) for l in manifest.open()]
@@ -43,7 +43,7 @@ def load(manifest, readings, subset=None, oracle=False):
             if oracle:
                 charts[cid] = (tables[cid], {})
             elif cid in reads:
-                med, spread, _ = combine([parse_model_output(t) for t in reads[cid]["outputs"]])
+                med, spread, _ = combine([parse_model_output(t) for t in reads[cid]["outputs"][:n_use]])
                 charts[cid] = (med, spread)
         if r["check"] == "table":
             r["_paper"] = from_csv((root / r["paper_table"]).read_text())
@@ -121,15 +121,16 @@ def main():
     ap.add_argument("--val-readings", required=True)
     ap.add_argument("--subset")
     ap.add_argument("--oracle", action="store_true")
+    ap.add_argument("--n-use", type=int, default=None, help="use only the first n readings per chart (1 = single reading)")
     ap.add_argument("--out")
     args = ap.parse_args()
 
-    recs, charts, tables, info = load(args.manifest, args.readings, args.subset, args.oracle)
-    vrecs, vcharts, vtables, _ = load(args.val_manifest, args.val_readings, None, args.oracle)
+    recs, charts, tables, info = load(args.manifest, args.readings, args.subset, args.oracle, args.n_use)
+    vrecs, vcharts, vtables, _ = load(args.val_manifest, args.val_readings, None, args.oracle, args.n_use)
     tau_t, tau_c = tune(vrecs, vcharts, vtables, "table"), tune(vrecs, vcharts, vtables, "claim")
     v = verdicts(recs, charts, tables, tau_t, tau_c)
     kinds, summary = scores(recs, v)
-    res = {"manifest": args.manifest, "readings": args.readings, "subset": args.subset, "oracle": args.oracle,
+    res = {"manifest": args.manifest, "readings": args.readings, "subset": args.subset, "oracle": args.oracle, "n_use": args.n_use,
            **info, "n_charts": len(charts), "n_checks": len(recs), "tau_table": tau_t, "tau_claim": tau_c,
            "summary": summary, "by_kind": kinds}
 
