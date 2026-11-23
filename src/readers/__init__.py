@@ -19,6 +19,12 @@ def get_reader(name, **kw):
     if name == "qwen-hf":
         from readers.qwen_vl import QwenHFReader
         return QwenHFReader(**kw)
+    if name == "unichart":
+        from readers.unichart import UniChartReader
+        return UniChartReader(**kw)
+    if name == "chartgemma":
+        from readers.chartgemma import ChartGemmaReader
+        return ChartGemmaReader(**kw)
     if name == "simulated":
         from readers.simulated import SimulatedReader
         return SimulatedReader(**kw)

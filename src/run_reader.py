@@ -29,7 +29,7 @@ def gpu_memory_used_gb():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--reader", required=True, choices=["deplot", "qwen", "qwen-hf", "simulated"])
+    ap.add_argument("--reader", required=True, choices=["deplot", "unichart", "chartgemma", "qwen", "qwen-hf", "simulated"])
     ap.add_argument("--model", default=None, help="Hugging Face id or local path")
     ap.add_argument("--manifest", required=True, nargs="+", help="one or more manifests (model is loaded once)")
     ap.add_argument("--root", default=None, help="folder the image paths are relative to (default: manifest/../..)")
