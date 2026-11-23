@@ -1,0 +1,4 @@
+x,models fine-tuned on existing benchmark(s),models fine-tuned on RNPC task
+SPTE,68.1,71.5
+MPTE,80.52,75
+EPC,66.4,73.5

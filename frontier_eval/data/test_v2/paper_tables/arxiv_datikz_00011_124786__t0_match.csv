@@ -1,0 +1,4 @@
+x,Translation error (cm),Rotation error (°)
+MSE+SSIM,6,4
+MSE+TV,4,2.3
+MSE+TV+SSIM,3,2.1

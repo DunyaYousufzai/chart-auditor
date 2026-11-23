@@ -1,0 +1,8 @@
+x,BERTScore(RoT_{truth} \sim RoT_{gen}),Avg. BART Sentiment Score,BLEU
+FlanT5,0.1936,-0.3771,0.29
+Vicuna,0.211,-0.1089,0.33
+Falcon,0.1788,-0.2197,0.39
+LLAMA,0.2987,-0.07315,0.4
+LLAMA2,0.3195,0.1819,0.46
+GPT3.5,0.3977,0.1515,0.52
+GPT4,0.42,0.2966,0.57

@@ -1,0 +1,12 @@
+x,Train data,Test data
+allogroom,0.005,0
+carry pup,0.022,0.003
+dig burrow,0.055,0.061
+foraging,0.26,0.332
+groom,0.009,0.005
+human interaction,0,0.0154
+interact with pup,0.056,0.075
+interacting with foreign object,0.036,0.131
+moving,0.276,0.19
+playfight,0.02,0.002
+sunbathe,0.006,0.008

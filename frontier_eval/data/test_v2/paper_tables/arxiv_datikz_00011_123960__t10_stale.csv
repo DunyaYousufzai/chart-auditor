@@ -1,0 +1,4 @@
+x,LAMBADA acc,StoryCloze acc,HellaSwag acc
+GPT-3 Zero-Shot,0.797971,0.807733,0.684562
+GPT-3 One-Shot,0.756557,0.87,0.769305
+GPT-3 Few-Shot,0.91404,0.921658,0.806711

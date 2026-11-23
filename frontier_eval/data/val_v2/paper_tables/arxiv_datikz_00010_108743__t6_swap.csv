@@ -1,0 +1,13 @@
+x,series_1
+Resource usage,35
+Load balancing,57
+Availability,56
+Database connections,54
+Threads,47
+Errors and exceptions,46
+Endpoint success,44
+Database latency,71
+Microservice’s open file,33
+SLA,33
+Status of dependencies,31
+Language specific metrics,23

@@ -1,0 +1,4 @@
+x,NO SPAM (thousands),SPAM-1 (thousands),SPAM-2 (thousands),SPAM-3 (thousands)
+TRAIN,10.585,0.195,1.087,2.439
+DEV,1.157,0.026,0.127,0.28
+TEST,2.867,0.061,0.319,0.727

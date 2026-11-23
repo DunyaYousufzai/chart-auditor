@@ -1,0 +1,8 @@
+model,LAMBADA (acc),StoryCloze (acc),HellaSwag (acc)
+GPT-3 Zero-Shot,81.0076,81.2845,78.7387
+GPT-3 One-Shot,72.9666,83.3388,73.5114
+GPT-3 Few-Shot,88.8007,92.0096,74.6468
+GPT-Efficio,69.4604,87.1021,77.8146
+GPT-Efficio (.1),65.8669,79.4783,72.6472
+GPT-Efficio (.3),64.2806,72.4487,65.4285
+GPT-Efficio (.5),52.1565,69.522,52.676

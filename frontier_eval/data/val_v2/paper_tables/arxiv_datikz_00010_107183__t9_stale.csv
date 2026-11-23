@@ -1,0 +1,10 @@
+x,series_1
+bi-LSTM,92.9006
+LSTM,93.2477
+RNN,91.7033
+CNN,89.3457
+MLP,105.54
+XGBoost-augment,107.088
+SVM,97.6898
+Random forest,99.6313
+k-NN,82.0747

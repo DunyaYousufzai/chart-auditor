@@ -1,0 +1,5 @@
+x,before reweighting,after reweighting
+Accuracy,0.911953,0.958411
+F1 Class 0,0.959738,0.847642
+F1 Class 1,0.688083,0.794794
+F1 Class 2,0.635789,0.803052

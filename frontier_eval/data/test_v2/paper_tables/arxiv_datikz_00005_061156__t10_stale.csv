@@ -1,0 +1,5 @@
+x,Test set: Original,Test set: Original + MTU
+Accuracy,0.731755,0.618168
+Precision,0.643593,0.514049
+Recall,0.746616,0.597824
+F1-score,0.656996,0.507241

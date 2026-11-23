@@ -1,0 +1,11 @@
+x,series_1
+LR,22
+SVM,27
+MLP,19
+CNN,20
+LSTM,24
+VGG16,21
+DenseNet121,20
+InceptionV3,2.5
+Xception,20
+ACGAN,20

@@ -1,0 +1,6 @@
+Input Complexity Parameter,Original model,Input-dependent erasure,Input-independent erasure
+1,0.191229,0.197814,-0.000247791
+2,0.495372,0.336673,-0.000217228
+3,0.997848,0.641217,0.0502751
+4,0.984199,0.715028,0.0975478
+5,1.01801,1.00754,0.150538

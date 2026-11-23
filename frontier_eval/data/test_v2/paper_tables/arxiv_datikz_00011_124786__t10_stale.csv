@@ -1,0 +1,4 @@
+x,Translation error (cm),Rotation error (°)
+MSE+SSIM,6.04512,3.84871
+MSE+TV,3.87743,2.26299
+MSE+TV+SSIM,2.98879,2.09986

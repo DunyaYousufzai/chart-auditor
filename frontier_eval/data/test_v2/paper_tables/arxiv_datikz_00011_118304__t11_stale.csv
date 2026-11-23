@@ -1,0 +1,6 @@
+x,model 1,model 2
+Memoryless,24.5861,25.8005
+LCP,7.19436,1.2527
+Int-LCP,47.9271,39.4221
+Probabilistic,41.8401,29.4709
+Rand-Probabilistic,41.6452,30.2135

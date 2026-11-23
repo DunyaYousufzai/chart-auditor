@@ -1,0 +1,8 @@
+x,Faithful,Intrinsic,Extrinsic
+Llama2_{ft},534,52,52
+SBeluga2,484,2,2
+GPT-4_{int},87,44,44
+GPT-4_{ext},47,638,638
+GPT-4,574,6,6
+mLongT5,537,7,7
+mBART,530,9,9

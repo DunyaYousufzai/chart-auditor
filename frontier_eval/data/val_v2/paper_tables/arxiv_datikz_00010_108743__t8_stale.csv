@@ -1,0 +1,13 @@
+x,series_1
+Resource usage,71.9987
+Load balancing,56.5315
+Availability,54.7144
+Database connections,55.8027
+Threads,46.4267
+Errors and exceptions,45.9244
+Endpoint success,44.1233
+Database latency,35.6809
+Microservice’s open file,33.6413
+SLA,34.1675
+Status of dependencies,30.6172
+Language specific metrics,23.3768

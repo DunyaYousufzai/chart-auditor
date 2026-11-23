@@ -1,0 +1,4 @@
+x,Base,Decrease,Increase
+Hallucinations,0,0,0.33
+Incorrect Statements,0.33,0,0
+Accuracy,0.33,0.17,0

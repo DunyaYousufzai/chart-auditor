@@ -1,0 +1,5 @@
+x,Dropout,No Dropout
+Orig. + CPB,85.0455,80.9537
+Orig. + NCPB,81.7053,84.0724
+Atten. + CPB,81.9528,81.3559
+Atten. + NCPB,85.3134,83.9911

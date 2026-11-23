@@ -1,0 +1,4 @@
+x,series_1,series_2,series_3,series_4
+EfficientNet-b0,48.6243,48.7541,53.0593,54.6847
+EfficientNet-b5,54.2177,56.3039,57.6927,63.7226
+ShuffleNet-V2,55.7561,58.5025,55.9942,61.8673

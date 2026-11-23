@@ -1,0 +1,4 @@
+x,Centralised,Pre-trained FL,FL
+Precision,89.3746,77.8466,57.1198
+Recall,76.3827,60.4822,57.8886
+F1-Score,80.2996,62.2957,55.869
