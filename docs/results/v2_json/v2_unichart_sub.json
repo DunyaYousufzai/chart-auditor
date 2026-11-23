@@ -1,0 +1,172 @@
+{
+  "manifest": "data/datikz_pgf/test_v2/manifest.jsonl",
+  "readings": "outputs/readings/unichart_datikz_hr_test_n1.jsonl",
+  "subset": "data/datikz_pgf/subset200_ids.txt",
+  "oracle": false,
+  "model": "ahmed-masry/unichart-base-960",
+  "seconds_per_chart": 0.8126849999999992,
+  "n_charts": 200,
+  "n_checks": 4503,
+  "tau_table": 0.03,
+  "tau_claim": 0.03,
+  "summary": {
+    "table": {
+      "no_error_passed": 0.157,
+      "false_alarm": 0.843,
+      "caught_by_kind": {
+        "decimal": 0.515,
+        "dup_series": 0.543,
+        "rank_flip": 0.523,
+        "stale": 0.52,
+        "swap": 0.552,
+        "value": 0.497
+      },
+      "caught_macro": 0.525,
+      "balanced": 0.341,
+      "n_no_error": 217,
+      "n_error": 2016
+    },
+    "claim": {
+      "no_error_passed": 0.298,
+      "false_alarm": 0.702,
+      "caught_by_kind": {
+        "above": 0.304,
+        "above_at": 0.186,
+        "max": 0.362,
+        "trend": 0.342,
+        "value": 0.397
+      },
+      "caught_macro": 0.318,
+      "balanced": 0.308,
+      "n_no_error": 1136,
+      "n_error": 1134
+    }
+  },
+  "by_kind": {
+    "claim/above/match": {
+      "n": 69,
+      "ok": 0.348,
+      "not_sure": 0.536
+    },
+    "claim/above/mismatch": {
+      "n": 69,
+      "ok": 0.304,
+      "not_sure": 0.536
+    },
+    "claim/above_at/match": {
+      "n": 290,
+      "ok": 0.269,
+      "not_sure": 0.624
+    },
+    "claim/above_at/mismatch": {
+      "n": 290,
+      "ok": 0.186,
+      "not_sure": 0.624
+    },
+    "claim/max/match": {
+      "n": 223,
+      "ok": 0.43,
+      "not_sure": 0.538
+    },
+    "claim/max/mismatch": {
+      "n": 221,
+      "ok": 0.362,
+      "not_sure": 0.538
+    },
+    "claim/trend/match": {
+      "n": 161,
+      "ok": 0.342,
+      "not_sure": 0.658
+    },
+    "claim/trend/mismatch": {
+      "n": 161,
+      "ok": 0.342,
+      "not_sure": 0.658
+    },
+    "claim/value/0.05/mismatch": {
+      "n": 138,
+      "ok": 0.391,
+      "not_sure": 0.594
+    },
+    "claim/value/0.1/mismatch": {
+      "n": 116,
+      "ok": 0.397,
+      "not_sure": 0.586
+    },
+    "claim/value/0.25/mismatch": {
+      "n": 139,
+      "ok": 0.403,
+      "not_sure": 0.597
+    },
+    "claim/value/match": {
+      "n": 393,
+      "ok": 0.219,
+      "not_sure": 0.593
+    },
+    "table/decimal/mismatch": {
+      "n": 200,
+      "ok": 0.515,
+      "not_sure": 0.465
+    },
+    "table/dup_series/mismatch": {
+      "n": 105,
+      "ok": 0.543,
+      "not_sure": 0.457
+    },
+    "table/match/match": {
+      "n": 200,
+      "ok": 0.17,
+      "not_sure": 0.465
+    },
+    "table/rank_flip/mismatch": {
+      "n": 128,
+      "ok": 0.523,
+      "not_sure": 0.453
+    },
+    "table/rescaled/match": {
+      "n": 17,
+      "ok": 0.0,
+      "not_sure": 0.471
+    },
+    "table/stale/0.02/mismatch": {
+      "n": 200,
+      "ok": 0.48,
+      "not_sure": 0.455
+    },
+    "table/stale/0.05/mismatch": {
+      "n": 200,
+      "ok": 0.56,
+      "not_sure": 0.435
+    },
+    "table/swap/mismatch": {
+      "n": 183,
+      "ok": 0.552,
+      "not_sure": 0.432
+    },
+    "table/value/0.02/mismatch": {
+      "n": 200,
+      "ok": 0.375,
+      "not_sure": 0.465
+    },
+    "table/value/0.05/mismatch": {
+      "n": 200,
+      "ok": 0.535,
+      "not_sure": 0.44
+    },
+    "table/value/0.1/mismatch": {
+      "n": 200,
+      "ok": 0.525,
+      "not_sure": 0.455
+    },
+    "table/value/0.25/mismatch": {
+      "n": 200,
+      "ok": 0.525,
+      "not_sure": 0.45
+    },
+    "table/value/0.5/mismatch": {
+      "n": 200,
+      "ok": 0.525,
+      "not_sure": 0.46
+    }
+  }
+}
