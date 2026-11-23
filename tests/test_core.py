@@ -219,3 +219,12 @@ def test_numeric_labels_match_only_same_number():
     chart = Table("x", ["y"], ["2", "4", "6"], [[20], [40], [60]])
     table = Table("x", ["y"], ["1", "2", "3"], [[10], [20], [30]])
     assert compare(chart, table, min_coverage=0.0)["checked"] == 1
+
+
+def test_labels_that_differ_only_in_symbols():
+    # found by the oracle run: identical tables were flagged because norm() merges these labels
+    from checker import match_names
+    for names in (["1.3B", "2.7B", "13B"], ["+", "++", "+++"], ["I^+", "I^-"]):
+        assert match_names(names, list(reversed(names))) == {n: n for n in names}
+    t = Table("x", ["1.3B", "13B"], ["1", "3"], [[38.76, 42.97], [43.5, 51.82]])
+    assert compare(t, t, tau=0.02)["verdict"] == "match"

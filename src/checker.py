@@ -56,22 +56,44 @@ def match_names(chart_names, table_names, cutoff=0.6):
     numeric = {c for c in chart_names if num_label(c) is not None}
     table_names = [t for t in table_names if tnum[t] is None or t in used]
     chart_names = [c for c in chart_names if c not in numeric]
-    tnorm = {norm(t): t for t in table_names}
+
+    # 1. identical labels first: norm() maps "1.3B" and "13B", or "+" and "+++", to the same key
+    traw = {}
+    for t in table_names:
+        traw.setdefault(_raw(t), t)
     for c in chart_names:
-        t = tnorm.get(norm(c))
+        t = traw.get(_raw(c))
         if t is not None and t not in used:
             out[c] = t
             used.add(t)
-    for c in chart_names:
-        if c in out:
-            continue
-        left = [t for t in table_names if t not in used]
-        best = difflib.get_close_matches(norm(c), [norm(t) for t in left], n=1, cutoff=cutoff)
-        if best:
-            t = next(t for t in left if norm(t) == best[0])
+
+    # 2. normalised labels, only when the normalised key is unambiguous on both sides
+    def unique_keys(names):
+        keys = [norm(n) for n in names]
+        return {k: n for k, n in zip(keys, names) if k and keys.count(k) == 1}
+    tnorm = unique_keys([t for t in table_names if t not in used])
+    cnorm = unique_keys([c for c in chart_names if c not in out])
+    for k, c in cnorm.items():
+        t = tnorm.get(k)
+        if t is not None:
             out[c] = t
             used.add(t)
+
+    # 3. fuzzy, skipping labels whose normalised form is empty or shared
+    for c in chart_names:
+        if c in out or not norm(c):
+            continue
+        left = unique_keys([t for t in table_names if t not in used])
+        best = difflib.get_close_matches(norm(c), list(left), n=1, cutoff=cutoff)
+        if best:
+            out[c] = left[best[0]]
+            used.add(left[best[0]])
     return out
+
+
+def _raw(label):
+    """Label as written, only case and spaces ignored."""
+    return re.sub(r"\s+", " ", str(label).strip().lower())
 
 
 def orient(chart, ref):
