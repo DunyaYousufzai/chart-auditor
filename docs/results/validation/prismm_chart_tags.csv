@@ -1,0 +1,385 @@
+uid,category,tag,description
+zwcRnM8lD6_0,table-only,no_chart_data,"Table 1 is supposed to show a performance comparison between the suggested method and existing methods, but while the existing methods go until 1000 epochs, the suggested methods only until 30 epochs, making a comparison at 1000 epochs not possible."
+zjBO4a1LxR_0,figure-text,no_chart_data,"The text describes CLIP being used for the tokenization, but Figure 2 shows a 1x1 convolution"
+zRMXQMyyM8_0,figure-caption,no_chart_data,The numbers for the rules do not match between the capture and the images of Figure 1.
+zEkvV65Wi1_0,table-text,no_chart_data,"The text make a general claim that post-hoc methods are known to result in relatively inferior calibration performance, but Table 2 shows CE+TS - a post-hoc method - perform better than many training-time methods."
+ywD00GsxgD_0,figure-only,chart_internal_sanity,"The Dice Similarity Coefficient (DSC) in Figure 6 is higher for out-domain data than in-domain, which is not expected."
+xp7kesUQC1_0,table-only,no_chart_data,The results for long-target end to end are missing without explanation in Table 1
+wxClzZdjqP_0,table-text,no_chart_data,"The text mentions ChatGAug outperforms the best baselines mentioned in Table 1, but Table 1 does not show ChatGAug for comparison."
+wHlYlC2TCM_0,table-only,no_chart_data,"Table 1 shows mask APr to be larger than mask AP for the propose DITO methods, which contradicts the expectation that mask APr should be lower than mask AP as in the baselines."
+vfHISoWo2m_0,figure-only,chart_internal_sanity,"The plot in Figure 4(a) shows multiple lines, but the legend only explains the color of one line."
+vY4iBYm9TU_0,table-table,no_chart_data,"In Table 2, 'RA' stands for empirical robust accuracy, but in Table 3, the same 'RA' denotes certified adversarial robustness."
+vFPwZP0fnO_0,other,no_chart_data,"The text says the method is aligning the training target with the augmented input, but Algorithm 1 describes the method as aligning the output after the augmentation with the training target."
+uxurbfWwRr_0,figure-text,no_chart_data,"Figure 1 shows vertex a1 with six edges affecting $ {\{ f^1, f^2, f^3, f^1_1, f^2_1, f^3_1 \}}$, but the text claims a1 only affects $ {\{ f^1, f^1_1, f^2_1, f^3_1 \}}$"
+uAp7YdKrlx_0,table-text,no_chart_data,"The text mentions the use of eight baseline models (including MICE), but Table 1 does not show any results for the MICE baseline."
+u8fg8acFsT_0,other,no_chart_data,"The notation of x uses superscript and subscript for k in Algorithm 1, making the notation inconsistent."
+tzlGWqRA0T_0,figure-text,text_claim_vs_chart,"The text describes a plateau of the accuracy at about 75%, but in Figure 2(a), there is a clear downwards trend."
+tzlGWqRA0T_1,figure-caption,no_chart_data,"The caption of Figure 1 describes the top section to show different learning regimes, but in Figure 1, this is the bottom section."
+ttRSBZiCiu_0,other,no_chart_data,"Figure 1 shows the inputs of the refiner are x, mel, t. Algorithm 1 shows inputs of the refiner as x_{hint}, t, x, c"
+tMKz4IgSZQ_0,table-text,no_chart_data,"The text mentions ControlNet as a baseline, but it is not used as a baseline in Table 2."
+siemhfrFXV_0,figure-only,no_chart_data,The meaning of the colors of the blocks in Figure 1 are not explained in the caption or legend.
+rcsV1C2eyk_0,figure-only,no_chart_data,"The colors in the vectors seem to imply some meaning, but the colors are not explained in the caption or in a legend in Figure 1."
+rIv15j44gR_0,table-text,no_chart_data,"The text implies one assumption is a drug should not be harmful, but in Table 1, there is a mention of ""harmful treatment"", indicating a violation of the assumption."
+qnbLGV9oFL_0,figure-text,no_chart_data,"The text claims the difficulty of CFGs inversely scales with the number of NT/T symbols, but the caption of Figure 3 claims fewer NT/T symbols leads to easier to learn which is a contradiction (not inverse)."
+pMoqxAOUSO_0,figure-caption,no_chart_data,"The caption of Figure 2 indicates a split of the plots into subplots (a), (b), (c), but the plots do not indicate those subplots letters"
+oIwoBDsJJI_0,table-only,no_chart_data,"The caption of Table 3 states ""NA"" stands for not applicable, but there are also values ""-"", which seem to be missing values in the table."
+oDGkq0AleM_0,table-text,no_chart_data,"The text states the ablation are done on 25 datasets, but there are only 24 datasets in Table 2."
+nuWVS4SBUu_0,figure-only,no_chart_data,"In Figure 1(a), the person playing the guitar is tagged as ""Guitar"" and the guitar as ""Singing"", which should be inverted."
+nuWVS4SBUu_1,table-text,no_chart_data,"The text claims an improvement of +21.2% mIoU on the AVS-Semantic benchmark, but Table 2 shows an improvement of just +13.2%."
+mmSmQ0gNyZ_0,table-text,no_chart_data,"The text treats the result from Table 4 as final training results, but. the Table 4 shows the results are from only 1 epoch of training."
+mkwOQGaIrQ_0,other,no_chart_data,"Algorithm 1 contains a line comment ""Learn a FSA structure..."" which is not indicated as a comment and can be mistaken as a step in the algorithm itself."
+m7SyTzLv6J_0,figure-only,no_chart_data,"Figure 4 should compare the bias of varying degree, but the input image is not kept consistent making the comparison less meaningful."
+lt6xKGGWov_0,other,no_chart_data,"The text describes a stopping criterion based on the mutual information, but the Algorithm 1 only mentions ""until convergence"" without showing the stopping criterion."
+lebNJk3ul9_0,figure-text,no_chart_data,"The text refers to Figure 4 when talking about the k=1 setting, but the caption in Figure 4 mentions k=2."
+ktmMkOOeYb_0,figure-only,no_chart_data,"Table 5 does not show results for D+GW and D+DG, despite introducing both concepts in the caption."
+kVSmnzcXDK_0,figure-only,chart_internal_sanity,"The legend of Figure 5(c) lists ResNet101, but the plot does not show a line for ResNet101."
+kKXIYUi8ff_0,table-text,no_chart_data,"The text refers to Table 9 as showing results for the ablation study on Self-Attention, but Table 9 shows Jacobian Computation Slowdown."
+kHTHf1XrFt_0,table-text,no_chart_data,"The text mentions MultiReAct score on Tower-of-Hanoi task as 99.0, but Table 1 shows a score of 90.0."
+igUP5kQRij_0,figure-table,no_chart_data,The text refers to Figure 3 and describes elements that are not visible in Figure 3. Figure 3 seems unrelated.
+iWi2mL8qoc_0,table-only,no_chart_data,"The caption of Table 1 mentions ""Places365‑standard"", but the column header shows ""Places368‑standard"""
+i4kDKfllrz_0,figure-figure,no_chart_data,"Figure 1(b) shows a clearly separable embedding space between known and unknown, but Figure 4 contradicts this."
+hgQFmoZT4g_0,figure-caption,no_chart_data,"The caption of Figure 1 only provides an explanation for the sub-plot (c), but the figure has (a), (b) and (c) subplots."
+hC4GdMOqvU_0,table-only,no_chart_data,"Table 1 does not contain any values for the Car, Chair and Globe column"
+hC4GdMOqvU_1,table-table,no_chart_data,"Table 1 shows a method NeRF, while Table 2 shows NeR. This is a mismatch as all other methods match between the tables."
+gql60q5W4z_0,table-only,no_chart_data,"The bolding in Table 1 is inconsistent, not always are the best results highlighted and sometimes no row is bolded."
+gKd8hH6ERY_0,figure-only,no_chart_data,The segmentation mask in Figure 3(a) does not match the segmentation mask in Figure 3(b)
+fx8pfuAsyL_0,figure-only,no_chart_data,"The zoomed-in regions in Figure 5 are placed inside other rows, whereas it should be a separate row."
+fXa9rO75dB_0,table-text,no_chart_data,"The text claims the proposed method is state-of-the-art, but Table 2 shows an existing approach that has lower error rates by a significant margin."
+exei8zvY13_0,figure-only,no_chart_data,"The images in Figure 4 for ""HR image"", ""LR image"" and ""SR image"" are identical"
+eaXMEb6fa4_0,other,no_chart_data,"Table 2(c) mentions MRE Concat, but Equation (3) only mentions Concat."
+eEslYpY6Yq_0,figure-only,no_chart_data,"The different subplots of Figure 8 should compare the performance of MLP and Mixup with different methods, but MLP and Mixup have different performances across the plots, whereas they should be consistent."
+e3JsfnAi9f_0,table-text,no_chart_data,"The text implies all methods were run 10 times with random sampling, but in Table 2, only one method carries the † symbol indicating 10 runs according to the caption."
+dBO8ZPQMVF_0,figure-text,no_chart_data,"The text refers to Figure 6 to show qualitative results comparing various methods, but Figure 4 is the actual figure showing this."
+d1zLRzhalF_0,figure-figure,no_chart_data,"Figure 2 and Figure 3 have the exact same caption, despite showing different data."
+d1zLRzhalF_1,figure-text,chart_internal_sanity,"The text mentions that in Figure 2, only the first 3000 iterations are plotted, but the x axis of Figure 2 only goes until 1000 iterations"
+cuDefaAWpa_0,figure-text,no_chart_data,"The text states that CVAE is not able to model non-uniform uncertainty, but in Figure 2(c), we can see CVAE modelled both uni-modal and multi-modal conditional distributions."
+cuDefaAWpa_1,figure-text,no_chart_data,"The text states the ordering is by the count of training molecules, but Figure 3 shows the ordering based on the count of models."
+cuDefaAWpa_2,figure-text,text_claim_vs_chart,"The text claims that the proposed method predicts more accurate plausible products than NERF, however the Figure 4(a) does not lead to such a clear conclusion."
+a2d3mqRKvF_0,table-text,no_chart_data,"The text claims the proposed method achieves a 70.8% improvement over existing methods on the OBO metric, but Table 1 does not confirm this."
+ZD7g4Y3PxP_0,figure-text,text_claim_vs_chart,"The text claims that OMNet maintains a small value bias throughout the entire training process, but in Figure 4(b) it can be observed a low bias is only present in the early stage and it is not lower than other methods later on."
+YPOcBR9h2a_0,table-text,no_chart_data,"The text in the abstract claims DLC-Net surpasses the state of the art baselines, but Table 2 directly contradicts this."
+YHqEWF5gt8_0,figure-caption,no_chart_data,"The caption of Figure 6 describes a qualitative evaluation on Shiny Blender, but the plots show images that are clearly not from the Shiny Blender dataset."
+X6ajk22thA_0,table-text,no_chart_data,"The text describes the use of eight real-world datasets, but Table 1 only presents the result for seven datasets."
+X1StGoeR8d_0,table-only,no_chart_data,"Table 3's caption mentions ADGM, but the table itself shows AWGM"
+WM5G2NWSYC_0,table-text,no_chart_data,"The text mentions 3 sets of datasets, but those sets are not shown in Table 1"
+WGLu9Mv8mn_0,table-only,no_chart_data,"The symbols used in Table 3 (e.g. ^, *) are not explained in the caption."
+VL2txtmPYA_0,figure-only,chart_internal_sanity,"Figure 6 shows two lines on each plot with different colors, but the colors are not explained in a legend."
+ULsnvrTB9Y_0,figure-only,no_chart_data,"In Figure 7, there are plots missing for some images and methods without explanation why"
+U9sHVjidYH_0,figure-only,no_chart_data,"Figure 5 shows the attention matrix reaches full rank for T=\infty, but intuitively, this should result in rank 1."
+TppgZwyEnQ_0,figure-caption,no_chart_data,"Figure 3's caption mentions a bi-modality of the distribution memorisation, but the plots show only single peaks."
+TCGUnoiaWP_0,table-text,no_chart_data,"The text claims synthetic data can improve the results on COCO, but Table 4 it refers to uses different crop values, making a direct comparison impossible."
+SrzrUGWoRq_0,table-only,no_chart_data,"The caption of Table 2 describes the table as comparing methods in terms of overall IoU on three benchmark datasets, but the table does not actually show any indication of what datasets were used."
+SfunjRKld1_0,table-only,no_chart_data,"The caption of Table 5 mentions \nabla showing the performance improvement, but the table itself does not show any instance of \nabla"
+Ry1SZkcYbX_0,figure-figure,no_chart_data,"There is no perceivable visual difference between the images shown in Figure 4 and Figure 6, making both redundant."
+Ry1SZkcYbX_1,table-only,no_chart_data,"Table 2 shows time for each method, but the unit of measurement for time is unclear."
+RUgBoMu0ad_0,table-table,no_chart_data,"The rows of ""descendant softmax"" and ""softmargin"" are swapped between Table 1 and Table 2, despite the fact the other rows are constant."
+R7946uagL2_0,table-table,no_chart_data,"Table 2 shows results for k=2,3,4 and Table 6 for k=3,4,5 but the values are exactly the same across both tables"
+Qs81lLhOor_0,figure-only,chart_internal_sanity,"Almost all data points in Figure 3's boxplots are labelled as outliers, which is not the expected way boxplots work."
+PqGPjts7Ug_0,figure-caption,no_chart_data,"The caption and plot in Figure 3(b) mention evaluation was done with dropout enabled, which contradicts best practices"
+PBEQIxXDDD_0,figure-only,no_chart_data,"Figure 4 claims to show the proposed method correctly identifies the frame of interest for the cartwheel motion, but it actually detects it too early and also fails as the baseline."
+OQccFglTb5_0,table-text,no_chart_data,"The text mentions baseline for watermarking methods to be IM and GW, but Table 4 only compares the proposed method to GW"
+NZ5KXXDv1T_0,table-only,no_chart_data,"The caption of Table 3 mentions sample quality on imagenet, but the table actually shows a different comparison"
+NLRo4qhg6t_0,table-table,no_chart_data,"The value for ""Ours"" in ""pipes1"" does not match between Table 1 and Table 2."
+NLRo4qhg6t_1,table-only,no_chart_data,"The best value for Table 1 in column ""tower2"" for the method ""SSIM"" is not correctly highlighted, but the second best is highlighted as best."
+NFAjyyeSfB_0,other,no_chart_data,The architecture shown in Figure 1(b) does not match the equation (5)
+Mm3TSPRUKc_0,figure-text,text_claim_vs_chart,"The text describes 10k instances as the choice for training, but Figure 4 shows the training has still long not plateaued at this number of instances."
+MiMxv6ijvC_0,table-only,no_chart_data,"The ""ours"" results in Table 1 are all bolded, but the ""ours"" result is not the best in all aspects, contradicting the expectation of bolding in tables."
+M1I4OCJ18h_0,table-only,no_chart_data,"In Table 2 under ""Reg1: Integrating Prior"", the Ours method optimizes the \psi but the objective function does not have any \psi"
+LZZD649RsD_0,figure-only,no_chart_data,"Figure 2 introduces y as the target output, but it appears in $\hat{y}_{\beta}=\text{argmax}_y P(y|x;\theta, I)$, making it's use ambiguous"
+LZT9T57Bg0_0,figure-caption,no_chart_data,"The caption of Figure 2 claims LARK infers the query type from the logical query, but the figure depicts the query type as an additional input to the logical query."
+LXnTFMvn8A_0,figure-text,text_claim_vs_chart,"The text talks about convexity as an important property, but contradicts itself by showing a concave pareto front in Figure 2"
+LXnTFMvn8A_1,figure-text,no_chart_data,"The text refers to Figure 9 to show M, B and A, but neither of those variables are shown in Figure 9."
+Jh6m4e8Ief_0,table-text,no_chart_data,"The text refers to Table 5, but the relevant information are actually presented in Table 1."
+J8FGCqT314_0,figure-only,no_chart_data,The output of the Transformer-based BC in (1) and (3) of Figure 1 is once G and once \hat G
+HZdJgJ8ldH_0,figure-only,chart_internal_sanity,"In Figure 5, at a refinement level of around 0.7, the number of images for Cars equal the amount of images without refinement, yet the performance on Cars is different"
+HKJfSd5hcb_0,table-only,no_chart_data,Table 4 compares the performance of the proposed MiniGPT-5 on multimodal generation with MiniGPT-4 as input to Stable Diffusion. It is unfair to use the output of a non-multimodal LLM into an image generation model without further training.
+HCMmC8DETj_0,figure-only,chart_internal_sanity,"Figure 2 has a legend showing 4 different entities, but the plots themselves do not show any values for ""Label Mismatch"""
+GxmltrqVNn_0,figure-only,no_chart_data,The picture of iDisc in the third row of Figure 3 does not match the other images of the row
+G2xm6yFkl8_0,table-only,no_chart_data,"The metric used in Table 1 are unclear, as next to mIOU, there is also ""Sand"", ""Coral"" and ""Algae"" mentioned, which are no metrics."
+FwwnW2dK9w_0,figure-text,no_chart_data,"The text mentions the trigger generator is bound by l∞, making only small perturbations possible. Figure 2 however shows a bird being transformed into a different species of bird."
+FLOaCQfZe9_0,figure-only,no_chart_data,"Figure 3 contains 3 markers ""1"", ""2"", ""3"", but it is nowhere explained what those markers mean."
+EvszuxrPTb_0,figure-figure,chart_vs_chart,"Figure 1(a) shows an effective decrease of rank with more classes, while Figure 2 shows an increase of rank with more classes"
+EuwZ3Ki81R_0,table-only,no_chart_data,"The caption of Table 5 says it compares MLP with the proposed method, but there are no results for the proposed method"
+E37nwosiyq_0,figure-caption,no_chart_data,The order of the subplots (a)-(d) in Figure 2 do not match their explanation in the caption.
+8fJEOri51F_0,figure-only,no_chart_data,"The Ground Truth for in Figure V shows road voxels floating above the surface, contradicting the assumption that the ground truth should deliver clean data."
+8fJEOri51F_1,figure-only,no_chart_data,The Ground Truth voxel does not correspond to the Image in Figure II
+8VHCeoBGxB_0,figure-only,no_chart_data,The |target-predict| row in Figure 7 is completely black.
+8TyGCAuCGd_0,figure-table,ranking_chart_vs_table,"Table 2 claims ""00111"" is the best performing setting, but in Figure 4 it is the worst performing one."
+7Mq096hr9Y_0,table-only,no_chart_data,"Table A3 shows results for TransMix on Swin-Tiny, but there is no official implementation for TransMix and Swin-Tiny."
+6NaiZHL3l1_0,figure-table,no_chart_data,"In Figure 4, we can see the \sigma=0.1 is less masked than \sigma=1.0, but in Table 3, the First Mask Ratio is lower for \sigma=1.0"
+6NaiZHL3l1_1,table-only,no_chart_data,In Table 4 it is clear that the proposed metric fails to capture human evaluation as large gaps between human evaluation results in only small changes in the metric.
+66wQM45W28_0,table-only,no_chart_data,The different architecture of CEDNet have the same amount of parameters and FLOPs in Table 1
+5Osk2F3qCn_0,table-only,no_chart_data,"Table 3 shows similar performance for random labels in few-shot setting as ground-truth setting, whereas it is expected it would be more similar to the zero-shot setting."
+4JtwtT4nYC_0,figure-text,no_chart_data,"The abstract claims the paper introduces an effective task-specific embedding, but Figure 5 shows there is no task separation."
+3sOE3MFepx_0,table-only,no_chart_data,There are missing values in Table 2.
+3NMYMLL92j_0,figure-only,no_chart_data,The arrows in Figure 1 do not allow for an end of the encoding process.
+3KmfUE31sc_0,figure-table,no_chart_data,"Table 4 shows a setting where there is no encoder (T_e=0). In this case, Figure 2 implies the CNN output is fed directly to the Decoder without Encoder, which is unsexplained."
+3DdCB6MRvu_0,figure-text,no_chart_data,"The text mentions real and synthetic images to be the input to T, but Figure 2 shows only synthetic images as input."
+2zoi9YI21Y_0,figure-caption,no_chart_data,"Figure 2's caption mentions sub-plots left, middle and right, but the plots are grouped into sub-plots (a), (b) and (c)"
+2psWOW7JKO_0,figure-text,no_chart_data,"The text describes categories fish and man when referring to Figure 6, but Figure 6 does not contain fish or man."
+1YSJW69CFQ_0,figure-text,no_chart_data,"The text refers to Figure 1 to show an illustration of the VF, URF and URFw methods, but Figure 1 shows something else."
+1HgJZl3HgT_0,figure-only,no_chart_data,The Separate & Mix column does not contain the Input Audio in the first and last row in Figure 5.
+10eQ4Cfh8p_0,other,no_chart_data,"In Algorithm 1, the experience pool EP_G is initialized but not used for storage"
+0rXGGYNVAw_0,figure-text,text_claim_vs_chart,"The test introduces a theorem that shows accumulation of divergence, but Figure 2(a) contradicts this by showing layers #23 and #42 exhibit similar divergence levels"
+zvYJ1qG1Fy_0,figure-text,no_chart_data,The text refers to an unrelated figure
+zvYJ1qG1Fy_1,figure-caption,no_chart_data,"The caption mentions time-varying changes in the images, but the images all look the same"
+zrNbsV87Os_0,figure-only,chart_internal_sanity,"The CAVE dataset does not have a ground truth for C>31, so it is unknown how the figure can show values for higher C."
+zkn2tvtt8J_0,figure-only,no_chart_data,The reconstructed image (VAE output) is horizontally flipped.
+zkn2tvtt8J_1,figure-only,no_chart_data,"The generated images are generally darker than the original ones, which is not explained why."
+zi3MEZRCqd_0,figure-text,no_chart_data,"The figure shows Group 1 and Group 2, but the text talks about Group 0 and Group 1."
+z1pydjd4XQ_0,figure-caption,no_chart_data,The caption and image do not match
+yx8bU8T5ZN_0,figure-figure,no_chart_data,"The equation shows delta L = 0, but the figure shows delta L != 0"
+yPxhj1FKhG_0,figure-text,no_chart_data,"Increasing N does not always lead to better results, as too high N introduces artifacts"
+y8TjnkdWNA_0,figure-caption,no_chart_data,"The captions states the performance for weak labels is 70.2, but the dotted black bar in the figure seems to be higher than that"
+xaafWdM5jI_0,figure-only,chart_internal_sanity,The optimal values for a integer hyperparameter are shown to be non-integers in the plot
+wrVZ771SZQ_0,figure-text,no_chart_data,"The text says superior performance, but the results shown in the table indicate only marginal improvements"
+wmFp2aMhi0_0,figure-text,no_chart_data,"The text uses hyperparameters $\eta$ and $\gamma$, but they do not show up in the table summarizing the hyperparameters"
+wgKW4U7ktq_0,figure-caption,no_chart_data,"The caption says 'GPT-4o's correct response', but the response do not match up with the ground truth and is therefore wrong"
+w1Pwcx5hPp_0,figure-caption,no_chart_data,"Caption claims the comparison ""Ours"" shows better performance than the baseline ""GT"", but the highlighted regions look the same"
+vtUbXd5Cyg_0,figure-table,no_chart_data,"The table shows worse performance for the 3DGS Avatar, but the figure shows qualitatively similar performance"
+zz9jAssrwL_0,table-only,no_chart_data,There is a model Ant and Ant-v3 in the table that are the same so the naming is not consistent
+ztT70ubhsc_0,figure-only,no_chart_data,The sketch examples for seasoned artists are not actual sketches by artists but manipulated photos
+ztT70ubhsc_1,figure-text,no_chart_data,The knob value does not seem to change the level of detail for most examples
+zgM66fu0wv_0,table-table,no_chart_data,"The tables should compare the performances on different graphs, but the tables also differ in used methods"
+zfIxlvKq4u_0,figure-caption,no_chart_data,"The caption states best tradeoff at 128 tokens, but plot does not show minimum or maximum there"
+zZU69H8tcr_0,figure-text,no_chart_data,The text and the figure show different reward functions
+zPaTnGjgpa_0,figure-text,text_claim_vs_chart,"The similarities do not fall dramatically after the instability and recover, contrary to the text"
+zPaTnGjgpa_1,figure-text,text_claim_vs_chart,The accuracy does not sharply improve right after crossing the threshold in 5(b)
+zLHP6QDWYp_0,figure-equation,no_chart_data,"The figure shows training of labeled and unlabeled data in two stages, but equation (8) shows them being optimized at the same time"
+zLHP6QDWYp_1,figure-only,no_chart_data,"The labeled data also contains ""?"" symbolizing unlabeled data"
+zAogQOIphH_0,figure-only,no_chart_data,The SMSD Module seems to have trainable and frozen weights at the same time
+ytn0rbIfOx_0,table-only,no_chart_data,"The best model on task 8 is LLM-F, not TOT. Yet TOT is bolded"
+yJduhi9mDQ_0,table-text,no_chart_data,"The accuracy using Hölder Pruning is worse than some of the other SOTA methods, but caption says is consistently outperforms SOTA"
+yJAk0n0NyU_0,figure-only,no_chart_data,The claim of BlockDance-Ada being a better trade-off is not clear comparing it to BlockDance
+yEnJvc7ogD_0,figure-only,no_chart_data,"Figure is not a figure, but a table"
+yEnJvc7ogD_1,figure-table,ranking_chart_vs_table,"The G-mean in the table shows CWPLUGIN outperforming Clean, but Clean outperforms CWPLUGIN in the plot"
+yDICgRUj5s_0,figure-only,no_chart_data,The pattern of the bars is not consistent
+y15LAM4u0A_0,figure-table,no_chart_data,"The table claims a real environment, but the figure show images of an artificial world"
+xcPN6Or88c_0,figure-only,no_chart_data,The last column of the table has the same value across different mask rates
+xcPN6Or88c_1,figure-only,no_chart_data,"The mask rate is sometimes reported as percentage, sometimes as decimals"
+xawA8X5dHq_0,figure-only,chart_internal_sanity,"The two plots have different x-axis scalin, making comparison difficult"
+xaXvHdH9Y4_0,figure-figure,no_chart_data,"The flow diagram shows that a selected to be pruned state should not be pruned again, but this happens to S768 in Figure 1"
+wq4AeBWQJ4_0,figure-caption,no_chart_data,"The caption mentions sub-plots (a), (b), (c), but the sub-plots are not labelled like that"
+wq4AeBWQJ4_1,figure-caption,no_chart_data,"The caption states training at 8-bit, yet the plot legends show different bit values"
+wixDdL0vj8_0,table-table,no_chart_data,Both tables show a different result for BYOL CF-100
+wYZ8rxwvMm_0,figure-figure,no_chart_data,Both figures show the same plot with different caption
+wWPiAjbR7a_0,table-only,no_chart_data,The gpt-3-5-turbo results are the same for all settings for dreaddit and Irf
+wJ6Bx1IYrQ_0,figure-text,no_chart_data,"The text points towards Figure 3 for a dipiction of the learnable special token c, but it is not present in the plot"
+w0MAu8vjwj_0,figure-only,no_chart_data,The prefix <helpfulness> turns into <helpful> in the output of the reward model
+vikwIayXOx_0,table-text,no_chart_data,MIRROR is shown to use attacks of shape 116x116 in the text but 160x160 in the image
+vXSCD3ToCS_0,figure-text,no_chart_data,We can see missing edges between nodes to perfectly match the road network structure as claimed in the text of the paper
+vVVtTVIR5O_0,table-only,no_chart_data,"The table sub-section headings shows twice ""methods without image data"", while it should be once ""methods without image data"" and once ""methods with image data"""
+v8GuB74YRA_0,figure-only,no_chart_data,"The MAE-B16/SimMIM-B16 models have different GT radar plots between (a) and (b), even though they should be the same"
+v5bK7cQch3_0,table-text,no_chart_data,The MCC performance of 29.33% on ADHD can't be found in the Table
+v44CUwEeDY_0,table-text,no_chart_data,"Abstract claims superior performance, but performance comparison table does not reflect this"
+v27yHgKtMv_0,figure-text,text_claim_vs_chart,"The figure shows underconfidence for Cross Entropy, while the text claims it results in overconfidence"
+uBxN9JA29p_0,figure-text,no_chart_data,"There seem to be many one-stage models available according to the figure, but the text mentions this as a scarcity"
+tsfR7JCwTf_0,figure-figure,chart_vs_chart,"The first figure shows results for all sigma values, the second figure misses results for sigma=0.1 and sigma=0.5"
+tpUEqmjZiS_0,figure-only,no_chart_data,The images for grasp the croissant do not show a croissant but a banana
+thqPibDg6A_0,figure-text,no_chart_data,"The text says Figure 3 shows results for layers [2, 9, 15], but the Figure shows layers [2, 9, 11]"
+t5mpbfpZuF_0,figure-text,no_chart_data,"The figure uses different naming for concepts than the text, making it hard to understand which part is what"
+syUJqBnuD6_0,figure-caption,no_chart_data,"Caption does only explain blue color, but not yellow"
+sec09tLQUl_0,figure-text,no_chart_data,Figure does not show all information claimed in the text
+scozdyKzET_0,figure-only,no_chart_data,"The meaning of the colored outlined rectangles in the dynamic dispatching layer are not explained, while all other rectangles are"
+sELO2DCCC1_0,figure-caption,no_chart_data,The distribution shown in the figure is clearly not uniform as described in the caption
+rtUjj03qZv_0,figure-only,no_chart_data,"In the contrastive-enhanced answer generation, the exclude branch still goes into the decoder"
+r6XqXoRT6N_0,figure-only,no_chart_data," 'Warriors' is misspelled as 'VAARR', and Stephen Curry’s jersey number, which should be 30, is incorrect."
+r6XqXoRT6N_1,figure-text,no_chart_data,"OH ACC is higher w/o text module in the table, while text says it is lower"
+r0JfDTXAWx_0,table-table,no_chart_data,"Both tables show the same results for the two last columns, even though they are 2-hop resp. 3-hop"
+qW5f8TAZ4J_0,figure-text,text_claim_vs_chart,"The paper claims to improve fairness, but the accuracy decreases for African and Asian skin types"
+qIJenSdGbW_0,figure-caption,no_chart_data,"Caption claims DPO and NPNet are orthogonal, but only ImageReward results support this, the other metrics do not"
+pshLnZzIbW_0,table-only,no_chart_data,"The best results should be bold, but only the ""this work"" is bold"
+pWdUcV5axb_0,table-text,no_chart_data,"Performance is not kept, but it decreases"
+pQJi9EsmCc_0,figure-table,no_chart_data,"The table shows significant differences in L_1 distance, but the visual inspection in the figure does not show almost any difference"
+pK3oe2bubc_0,table-text,no_chart_data,"The layer shuffle method significantly decreases accuracy, not just ""slightly"""
+p3NVJg6ywM_0,table-table,no_chart_data,The values for DENSE are inconsistent across the two tables
+owR9ofvkFQ_0,figure-text,numeric_chart_vs_table_or_text,The values in the text do not match the pie diagram
+ow51wrwVtI_0,figure-text,chart_internal_sanity,"The Figure 7 (Right) is supposed to show Log Scale y-axis, but it is linear."
+oqRe1KvD17_0,table-only,no_chart_data,The gpt-3-5-turbo RAG does not have a non-RAG baseline to compare to
+opSPgPIwAD_0,figure-only,no_chart_data,"The FACE uses a different starting point than the author's implementation, which does not allow for direct comparison"
+oW7T3p5wE1_0,equation-text,no_chart_data,"The text says the magnitude of similarity score is used, but the equation shows the similarity score itself being used"
+nxZbKWhUeZ_0,table-text,no_chart_data,"The difference in mIoU, AP and PQ claimed in the text can't be found in the table"
+nM2kuesKpC_0,figure-only,chart_internal_sanity,"There are no blue and orange lines in the plot, but they can be found in the legend"
+mnwlhvmKMN_0,figure-only,no_chart_data,'guided depth diffusion' and 'guided normal diffusion' labels should be flipped
+miIE56qM10_0,equation-text,no_chart_data,Jensen's inequality should have a >= instead of >
+mb2rHLcKN5_0,figure-figure,no_chart_data,"Figure 1 shows formal proofs as input to generator, figure 6 contradicts this"
+mZvzvwIu8f_0,table-only,no_chart_data,The best result in Last Inc 5 should be DSGD and not CREATE
+mXh8LbXXpx_0,table-caption,no_chart_data,"The caption states the first block shows vision-based methods and the second block text-based methods, but the table blocks are exactly the other way round"
+mXh8LbXXpx_1,table-table,no_chart_data,SoftMatcher+ performance does not match between table 1 and table 2
+krUajZ1gHg_0,figure-text,no_chart_data,The claim that MarineMaid is 10 times larger than Wildfish++ seems to not hold true based on the table
+km2nHt2YoD_0,table-only,no_chart_data,"Caption mentions 'when the training data is different from the testing data', but table also shows results for the same training and testing data"
+kIOAMYeOcv_0,figure-text,no_chart_data,Figure does not show SOTA models mentioned in the text
+kA5egaJjya_0,figure-only,no_chart_data,The windows indicated in the 2D plan are not included in the 3D model
+kA5egaJjya_1,equation-text,no_chart_data,The N_counts should be N_rooms
+kA5egaJjya_2,equation-text,no_chart_data,"The equation should show F_recurrent, not F_shared"
+k9KKFhwNwg_0,figure-text,text_claim_vs_chart,"The performance of EGLNN-T is much better compared to EGLNN according to the figure, yet the text claims similar performance"
+k1mMxqalb0_0,figure-only,no_chart_data,"The figure shows trainable weights for z_i, but z_i is a latent space, not a weight vector"
+jwGPmIqE99_0,table-table,no_chart_data,"The tables' rows and columns are inverted, making the two tables hard to compare"
+jvmMqD57ZR_0,figure-only,no_chart_data,"In the top right subplot, the method should be ""DRAG"" instead of ""DRGA"""
+jR6YMxVG9i_0,figure-only,chart_internal_sanity,"The x-axis has 0.5 as step size, which does not make sense for integer values"
+jJvJqgPZCD_0,figure-caption,no_chart_data,"The caption says 42%, but the heatmap does not contain this number"
+iwVkB9zaVb_0,figure-text,no_chart_data,The table does not confirm the performance advantage claimed in the abstract
+ivXe7J6U0k_0,figure-text,no_chart_data,Figure 1a is missing an indication of what is weak augmentation and what is moderate augmentation
+iiK1vNRo6I_0,figure-text,no_chart_data,"In figure 2, the W_0 are initialized using \mu, whereas in the text W_0 is initialized using \mu^*"
+i2ue8J6aqI_0,figure-only,no_chart_data,"The ADNI dataset has 3 classes, but the scatterplots only show 2 classes"
+hVpAjJPfgZ_0,figure-text,no_chart_data,"The text calls the method ""PIH"", whereas in the figure, it is called ""PHI"""
+h5UdvNFHee_0,figure-only,no_chart_data,The images are in the wrong column and should be swapped
+gN4stDLq3t_0,figure-caption,no_chart_data,"The caption talks about hyperparameter a, whereas the figure shows b"
+gDWkImLIKd_0,figure-text,no_chart_data,"Abstract text talks about accuracy, but table shows the F1-score"
+gCYFtUKXSc_0,table-only,no_chart_data,Inconsistency in labelling (CIFAR100 <-> CF100)
+g6iiIUvhko_0,table-table,no_chart_data,The Ours result for ML-45's Test tasks do not match between the tables
+exfy4e7OJq_0,figure-only,chart_internal_sanity,"The y axis do not align between the two subplots, making comparison hard"
+erowpbZcPi_0,table-text,no_chart_data,"Negative tilting does not seem to improve the performance according to the table, but the text claims an improvement"
+ec9hJPn59o_0,figure-text,no_chart_data,The figure lacks any reference to **RefConv** from the text
+ec9hJPn59o_1,figure-figure,no_chart_data,"According to figure 2, the output of FAM should be the input to HFEM, but the dimensions do not match in Figure 3"
+eFGIWUqHQm_0,figure-caption,no_chart_data,"MediaPop used in caption, but figure itself only shows MediaPipe, indicating a typo"
+dsALpkd1OU_0,figure-text,no_chart_data,The table shows a smaller improvement over the baseline than the abstract claims
+dL3h1lyUNd_0,table-only,no_chart_data,The Energy value for VGG16 MAD SMSB is not the same across all subtables
+dIK7GpOwNY_0,figure-text,text_claim_vs_chart,"It is hard to claim a clear general negative correlation based on the plots, which are rather ambiguous"
+cp9LvuvAKW_0,table-only,no_chart_data,"The y-axis scaling for subplots (b) and (c) is different, making them harder to compare"
+cnLNpIRPuF_0,figure-only,no_chart_data,"There is a large lava chunk on the map, which is not addressed in the caption"
+cb4PoT7ePW_0,figure-only,no_chart_data,"DoLa does not include a dedicated context encoder, which makes the left part of the figure show the wrong architecture"
+cPIs6PlCuE_0,figure-text,no_chart_data,"All parameters are blue, questioning the ""blue portion"" mentioned in the text"
+bx0IbCcBvO_0,figure-only,no_chart_data,The sparse patterns can't be seen in the figure due to the colormap
+b7HOhqXiZs_0,figure-caption,no_chart_data,None of the lines show convergence as implied by the caption
+b39J2X4rjT_0,table-text,no_chart_data,"The table shows level 2 CBA provides best accuracy (even better than level 1 and level 2 combined), but text mentions negligible effects"
+aoW5Sm8Op8_0,figure-caption,no_chart_data,All three subplots are exactly the same just with different caption
+aXSxSu3fvg_0,figure-text,text_claim_vs_chart,"The text talks about the finding the minimum of the validation loss, but the figure does not show an increase of the validation loss which is atypical and might not indicate the optimal point of training"
+aVyJwS1fqQ_0,table-only,no_chart_data,"The PSNR and SSIM are in an unusual scale (they should be in the range of [0, 1]"
+a69zct3BkY_0,figure-text,no_chart_data,"The text says Figure 3 depicts 'Delphine de Girardin', but the caption implies 'Slovenia'"
+Zp51wHvoot_0,figure-caption,no_chart_data,"The caption only treats 3 frames, but each method shows 5 frames in the plot"
+ZaudLwn0Hm_0,figure-figure,no_chart_data,The figure does not use the highest scoring models from the table for comparison of few-shot performance
+ZYUR3HVSAT_0,figure-text,no_chart_data,"The figure labels have a typo, where ISARIL should be ISARA."
+ZT33ACedmn_0,figure-only,no_chart_data,"The figure shows two similar, but separate frameworks. It is unclear which one was picked for the paper"
+ZMtq9pYw5e_0,table-text,no_chart_data,"The dataset contains 9 classes, but the results are only shown for 6 of them"
+YryL3QIWWc_0,figure-only,chart_internal_sanity,"The headline says Delta1 Error vs Number of Forward Passes, but the axis labels show Relative Error vs MACs"
+YryL3QIWWc_1,figure-caption,no_chart_data,"Caption mentions comparison with models A5 and A6, but they are not present in the figure"
+YQjdNC0NkW_0,table-table,no_chart_data,The results for Clip4Clip are the same across the two tables except for the AV-Align
+Y89o3LAEHX_0,figure-text,no_chart_data,"The text states 4 datasets used, but the figure only shows results for three"
+Y0P6cOZzNm_0,figure-only,no_chart_data,"There is a watermark ""shutterstock"" in one of the finetuned images, which raises the question if the image was actually generated"
+Xq12wsoNux_0,equation-text,no_chart_data,The numerator and denominator are flipped
+XWPp9FJ0uJ_0,figure-equation,no_chart_data,"The equation starts with the vector z and finally the z_cls, but in the figure, it starts with z_cls and then vector z"
+Wl5HGuFYVp_0,table-only,no_chart_data,"The table shows two times method without our method, while the second time it should be ""method with our method"""
+VfvxZLXYgd_0,figure-text,text_claim_vs_chart,"Text says POGM uses less GPU memory than ERM, but figure shows otherwise"
+VSfvQxPPB0_0,table-only,no_chart_data,Critic w/o critic does not make sense
+VSVQljJU5N_0,table-only,no_chart_data,"R@20 is lower than R@10 for UltraGCN on Yahoo, which is unusual"
+UwbX8KOZgK_0,table-text,no_chart_data,"The main contribution of the paper is a 16M dataset, but it is only evaluated in the table with 3M data points"
+UoYxPYMUWd_0,table-only,no_chart_data,The bolded numbers do not always highlight the best result
+UeHunlny77_0,figure-only,chart_internal_sanity,"Part (a) should have as x-label some sort of length measure (as it is called L-CiteEval-Length), not hardness (like for L-CiteEval-Hardness)"
+UEE13WQlNU_0,figure-text,no_chart_data,"The equation shows updating of the teacher parameters, yet the figure shows the teacher weights are frozen"
+U2ZtvonVQz_0,figure-caption,no_chart_data,The caption does not match the figure
+Tnd3dZxyEv_0,figure-only,no_chart_data,Most of the No-KGI cases have not yet converged in training
+TCiJvhH2fC_0,figure-text,no_chart_data,MPRNet is not represented in the figure
+SjMtxqdQ73_0,figure-only,no_chart_data,The word PEPTIDE is mispelled as PEPTID or PEITED
+SOVwGa0H2c_0,table-text,no_chart_data,The performance data claimed in the text and in the table do not match
+SM1guXel3E_0,table-only,no_chart_data,The table is not sorted according to overall ranking
+SM1guXel3E_1,figure-only,no_chart_data,The caption looks like datapoints themselves and obscure the plot
+RrWAtQNGAg_0,figure-only,no_chart_data,"The green path in case 2 should be b,c,d,f"
+RrWAtQNGAg_1,table-only,no_chart_data,"The Chain-Instruct model performance is compared to DeepSeek-Coder, where the comparison with DeepSeek-Coder-Instruct would be more appropriate"
+RG806nMtQr_0,table-only,no_chart_data,The rows of CIFAR-10 and ResNet have the exact same result
+R8t9Q3jmCQ_0,figure-only,no_chart_data,"In the w/o Color Adapter, the left foot is in front, whereas in the other images, the right foot is in front. This raises questions about the capabilities of the color adapter"
+QtSw71HJ6M_0,figure-text,text_claim_vs_chart,"The text states that CQL shows more frequent overestimations, yet the Q_difference of the proposed method is more positive than CQL."
+QmJoF47DIR_0,figure-text,no_chart_data,The arrow from Opacity offset to 3DGS rasterizer should be reversed.
+QjrC77Nyu6_0,table-only,no_chart_data,The table shows F1 metric for one method and AUROC for the other two.
+QfGc9txfGO_0,table-table,no_chart_data,"Table 3 shows Sup-21K performance on Split Aircrafts as 47.47, but in Table 6 it is 47.37"
+QYgtZRTv3e_0,figure-text,no_chart_data,"The text states that the author's method uses pre-trained VIT-B-16, but the Figure shows CLIP."
+QO4bF6MHza_0,figure-caption,no_chart_data,"The caption describes a 'Single-Step Single-Document' Task, but the figure shows a Multi-Step Multi-Document task."
+Pnr8XNWcY0_0,table-only,no_chart_data,"Some of the accuracies are reported as percentages, some are missing the % symbol."
+PdDm14eXO4_0,figure-text,no_chart_data,"The text states that only 35% samples exhibit similarities below the threshold, but the caption of the figure lists 65%."
+PN4f0hnI0U_0,table-text,no_chart_data,"The table shows that block size 1 achieve the best results considering all metrics, but the text says the author chose block size 2 to keep computational costs low, but block size 1 would be even better in terms of computational costs."
+OzwGZP8h2A_0,figure-text,no_chart_data,"The text description says Figure 3 shows ab as a logical sharing node that appears twice in the expressions, but Figure 3 does not show that or any references to 'ab'."
+OuxdVB6g1F_0,figure-text,no_chart_data,"The text defines Graph2Text to transform Graph-of-Text into Text-of-Graph, but the caption of Figure 2 shows a different transformation."
+OIhON8zd8d_0,figure-text,no_chart_data,The role of the encoder is contradictory in the figure and the text.
+O2CG9B2k9Q_0,figure-figure,no_chart_data,"Figure 4 shows a linear scaling for D-FLD, but Figure 5 has a logarithmic scale for FLD"
+NK09Bcvuxl_0,algorithm-only,no_chart_data,"The algorithm at step 5 states randomly sample n_ivp from unlabeled data U_i, but the text states that we should sample from labeled data L_i"
+N5qFgohx9u_0,figure-text,text_claim_vs_chart,"The text states the vanilla attention almost never assigns zero attention score, but MöbiusAttention gives most of the pairs zero score is contradicted by the Figure, showing on average MöbiusAttention gives less zero attention score."
+N18Z2MkMEa_0,equation-equation,no_chart_data,"Equation (2) and (8) are identical, besides the fact they are denoted as different and appear in different parts of the text."
+MsAglk31tQ_0,table-text,no_chart_data,"The text says three segmentation methods, lists four methods and the table shows SAM additionally, so five."
+MazxSMs6Hs_0,figure-caption,no_chart_data,"The caption states WER as a performance measurement, but the y-axis shows U-WER, a different metric."
+MJWJoICJQh_0,figure-only,chart_vs_chart,"Figure 4(d) and Figure 4(e) show partially same lines, even though they represent different methods."
+M8xtZuxqC5_0,figure-figure,no_chart_data,"Figure 3 shows PM as a percentage, but Prompt 1 in the appendix shows it is a value from 1-10 assigned by an LLM-as-a-judge"
+M7CblLwJB8_0,figure-text,text_claim_vs_chart,"Figure 4 (Left) shows prompting to have lower bias than the proposed method AutoCustomization, contradicting the claim in the abstract."
+LieTse3fQB_0,figure-table,no_chart_data,"The ablation study quantitative results in Figure 8 are presented after 5000 iterations, but the qualitative results are presented after 30000 iterations."
+LieTse3fQB_1,table-table,no_chart_data,"There are two tables that show quantitative comparison with baselines on the Mip-NeRF 360 Dataset, but the datapoints that appear in both tables are not consistent"
+LSB2mRJdgZ_0,figure-only,no_chart_data,"The grid world should show the concept of gravity, but the red bar in the middle of the three images is not falling down."
+Kz10l3roV0_0,table-table,no_chart_data,The MSE values for train and electricity for the values without the channel module are different between the tables
+KJkbmBcZRx_0,figure-only,no_chart_data,"Despite adding a component to a method in the second group of the table, the parameters do not increase."
+JwNQP2dNhD_0,figure-text,no_chart_data,"The text outlines the use of 2 oracles, but the figure depicting the architecture only shows 1 oracle."
+JnWJbrnaUE_0,table-text,no_chart_data,The performance improvements claimed in the text are not the same as shown in the Table.
+Jl0aEFrp11_0,figure-only,chart_internal_sanity,"The legend in the left part of the figure shows 4 methods, but only 3 lines are discernible. In the right part of the figure, the legend shows 6 methods, but only 5 lines are  discernible."
+JfKF7Pdigi_0,figure-text,text_claim_vs_chart,"The text states higher activity, but Figure 5(b) shows an overall decrease in activity."
+JQbqaQjV7D_0,figure-text,no_chart_data,"The text claims Figure 3 compares 9 different models, but the Figure shows 10 (9 models + 1 RAG variant)"
+JIlIYIHMuv_0,figure-equation,no_chart_data,"The equation (1) shows the same encoding function for text and vision encoder, but the Figure 2 shows both encoders to be separate"
+JDa5RiTIC7_0,figure-only,no_chart_data,"In the second column of the flow chart shown in the figure, the blue text boxes do not in category to the screenshots shown below"
+J8LYjgi7nH_0,algorithm-only,no_chart_data,The variable 'k' first appears in the function kmeans_clustering() but was not defined before
+IUzQfdkkoL_0,table-text,no_chart_data,"The related work section text talk about the Food-101 dataset, but is not included in the comparison of of public datasets in Table 1"
+IUzQfdkkoL_1,figure-only,no_chart_data,The Figure 2 shows food images above a bar plot which are unrelated to the food names indicated on the abscissa
+IQ0BBfbYR2_0,algorithm-only,no_chart_data,The θ once goes from 0 to k and once from 1 to k.
+IQ0BBfbYR2_1,table-text,no_chart_data,"The text talks about L2 as a metric, but it is not shown in Table 1"
+I86z54CL2y_0,figure-text,no_chart_data,"The text mentions a learnable parameter $\mu$, but it can't be found in Figure 2, showing the method visually"
+HGxGCjqnDd_0,figure-text,no_chart_data,"The text shows LoRa and FoRa to have the same parameter r, but the Figure shows the parameters r for LoRa and $\tilde r$ for FoRa."
+Gp6VU0oJX3_0,figure-text,no_chart_data,"The text states P(X|C) should be invariant and P(X|V) varies, but looking at the Figure, X has parents C and V, so P(X|C) can't be invariant as it is also dependent on V."
+Gh1XW314zF_0,table-text,no_chart_data,"The text claims MG-LLM to have the highest F1 score, but the Table shows (Rezk et al.) to have a higher F1 score."
+GDDqq0w6rs_0,table-text,no_chart_data,"The text states ScGPT-H to be a top performer in two families of tasks, but Figure 2 contradicts this."
+G2BiEoB77Z_0,figure-only,ranking_chart_vs_table,The ranking of the bar plot in (b) does not match the table in (a)
+FNDudoox4A_0,figure-only,no_chart_data,"According to the text, SDI III is responsible for text input, but the Figure shows an image as input data to SDI III"
+F4bHMojXVW_0,figure-text,no_chart_data,"The text mentions performance degradation after 11 frames, but the x axis in Figure 3 shows number of captions, not number of frames"
+F1cN3aoAty_0,figure-caption,no_chart_data,"The caption states the proposed method is called VideoLights, but the Figure itself shows VideoLimo as the name"
+EispKqtw5B_0,table-table,no_chart_data,"Table 1 shows the parameter count for different sizes of the model ShuffleMamba. The small version in Table 1 shows 7M parameters, while in Table 2 it is 26M parameter"
+EXaKfdsw04_0,figure-text,no_chart_data,"The text states the step-proof strategy is on the left of Figure 1, but it is actually on the right of Figure 1"
+ERBm5WK8nq_0,figure-caption,no_chart_data,"In the caption, the inference speed is denoted in seconds, but in the Table in milliseconds"
+EIXZXPz7jU_0,figure-only,chart_vs_chart,The line colors for DAS PINN and FMS PINN is swapped between (a) and (b)
+E0UsEIRBQ8_0,table-only,no_chart_data,The red and blue highlighted numbers are not the two best results in most cases
+Do3whenqeY_0,figure-only,no_chart_data,"In the original question section, 1 means completely dissatisfied and 10 completely satisfied, but in the converted statement section, 10 means dissatisfied and 1 satisfied"
+DXaUC7lBq1_0,table-table,no_chart_data,The base values for the subscales are swapped between Gemma-2-9B-Instruct and Gemma-2B-Instruct in Table 4 and Table 5
+DWISGL63PC_0,figure-only,no_chart_data,"There is a training time of 62h for PDM-closed, but PDM-closed is rule based and does not have a training phase"
+DLhjxxXYwH_0,equation-text,no_chart_data,"In the equation (3), H is part of G, but the text describes it as two different set of nodes"
+CscKx97jBi_0,table-text,no_chart_data,"The table shows 97.2% for the proposed method using GPT-4 is not possible, as 159/164 equals 96.95%, and 160/164 equals 97.6%, both do not round to 97.2%"
+CfXRcN4iUw_0,figure-table,numeric_chart_vs_table_or_text,The best accuracy of IGNN-Solver for ogbn-arxiv in the Table 1 does not match the accuracy shown in Figure 2(c)
+CKx7eOYFG8_0,figure-text,no_chart_data,"The text states all three models are optimized jointly, but the training model in the Figure 1 shows frozen weights, meaning it does not get optimized."
+CI9JMBAsPg_0,table-text,no_chart_data,"The text states that extraneous tokens such as \ref are removed, but in Table 2, we can see \ref included."
+CH7Ba4RFa2_0,figure-text,no_chart_data,"The text talks about ASM and refers to Figure 3 to illustrate it, but ASM can't be found in the Figure 3."
+CGT0T9uUOY_0,figure-caption,no_chart_data,"The caption claims more consistent view-consistent segmentation, but the pillows are not consistently segmented, showing no improvement over Panoptic Lifting."
+CB2r9PwuRQ_0,table-text,no_chart_data,"The text states that deleting the CEB causal module leads to a significant drop in performance, but Table 3 shows that R-L actually goes up."
+C9pndmSjg6_0,table-text,no_chart_data,"The table shows results for heuristic approaches to perform better than exact solutions, which is not possible."
+C9BA0T3xhq_0,figure-text,text_claim_vs_chart,"the text concludes that a lower expectile are advantageous, but Figure 2 does not show a clear trend."
+C7XoUdJ5ZC_0,table-only,no_chart_data,"The caption states the best result for each dataset and configuration is highlighted in bold, but sometimes, FLAIR is highlighted without having the best result."
+C0Boqhem9u_0,figure-only,no_chart_data,"Part (a) and (b) look the same in the figure, besides being supposed to show two different encoders"
+BrqFB8Nl7e_0,figure-text,text_claim_vs_chart,The test's claim that OpenLD always outperforms traditional OOD techniques is not confirmed in Figure 2 Left
+BpyHIrpUOL_0,figure-caption,no_chart_data,"The caption talks about examples where the proposed method correctly predicts the digits shown, but the Figure also shows misclassifications."
+BjZP3fTlVg_0,figure-only,chart_internal_sanity,The lines in the figure keep changing the value for the y-axis besides the same values for the x-axis.
+BeOEmnmyFu_0,figure-only,no_chart_data,The translation of GPT-4o answer 'Certalfainly! Halerfe alfare stalfealfe' is incorrect according to alfa balfa rules.
+BUpdp5gETF_0,table-text,no_chart_data,The text claims \lambda to start at a different value for MoE as shown in the Table 4
+AuckJjoD99_0,table-only,no_chart_data,"The fine-grained emotional breakdown is attributed to the primary emotion ""Excite"", whereas it should be assigned to ""Happy"""
+Aqfwhna1D7_0,figure-only,no_chart_data,"The images under the 'Candidates' section are (a), (b), (c). But the answers of GPT4 are (a), (g), (b)"
+AjunxrcKa2_0,table-caption,no_chart_data,"The caption states the lower the FID the better and the best results are bolded, but the bolding in the Table is arbitrary"
+ARIQfWf4ll_0,figure-only,no_chart_data,"Figure 1 (a) should show some example datapoints for the training data, but the training data with the X-Ray image is wrong, as the right and left side of the bounding box on the lung image is flipped."
+A2muypu61H_0,table-caption,no_chart_data,"The captions states the second best results are underlined, but there are no underlined values"
+9ljHiYuRHl_0,figure-figure,chart_vs_chart,"In Figure 5, the chain length is 9 at max, whereas in Figure 6, it is 10"
+9DDJuab67K_0,figure-text,no_chart_data,"The text mentions the label ""excited"", but the Figure shows ""excitement"""
+9DDJuab67K_1,table-text,no_chart_data,"The Table does not show results for CHFusion, especially not for the minority classes, but the text claims there are results."
+97tbbvSJ4A_0,figure-text,no_chart_data,"The text talks about Figure 2 showing experimental results (performances), but Figure 2 is unrelated to that."
+8Lt27D1qhE_0,table-text,no_chart_data,"The text claims bookshelfs are hard to predict, but the Table shows the performance to be among the best for this label, making it seem easier to predict than other labels."
+8GMUa79ZKc_0,figure-equation,no_chart_data,"The Equation (3) shows m^* to be calculated by an element-wise product of w and m, whereas in the Figure 3, it is the cross product between w and m"
+8EaDOGMPUL_0,figure-caption,no_chart_data,"The caption states the diffusion model generates 'six views of global full-body images and local face images', but only two face views can be seen."
+7vH8DO2oPk_0,figure-text,no_chart_data,"Figure 4 (a) shows the cosine between MLPs, not the convergence throughout MEL as stated in the text."
+70lFRMBygi_0,figure-caption,no_chart_data,"The caption mentions a 1s decision window, but the title of the figure mentions a 0.1s decision window"
+6w2HEMxzq7_0,figure-only,no_chart_data,"After the denoising step in Figure 2, the frequency of noise and normal changed, but the graph looks the same."
+6D30aOdh2U_0,figure-caption,no_chart_data,"The caption claims that the proposed method maintains robust consistency with the source domain, but the generated images show different characters than the source image."
+5nldnvvHfw_0,equation-text,no_chart_data,"The text claims the complexity is O($\sqrt{T}$) for the regret, but Equation (14) shows complexity O(T)."
+5dDYhvt6dY_0,figure-text,no_chart_data,"The reference in the text to Figure 1 (b) and Figure 1 (c) should be flipped, as text 1(b) is (c) in Figure 1 and vice versa."
+4y6Q98hJzr_0,figure-caption,no_chart_data,"The caption states (b) shows the relative parameter update during the pre-training process, but (b) sees to show accuracy "
+4vm6Nn2DW9_0,figure-caption,no_chart_data,"The caption states there are four datasets, but the Figure shows 5 datasets"
+4WsHgA8EG1_0,table-caption,no_chart_data,"The caption claims the best result is bolded, but sometimes the best result is not bolded"
+3f8556SIEn_0,figure-equation,no_chart_data,The notation $M_{\textrm{tgt}}$ in Figure 2 is inconsistent to the notation in text $M^{\textrm{tgt}}$.
+3Q7y9No9VF_0,table-caption,no_chart_data,"The caption mentions three real-world dataset, but the table only shows two"
+3MDmM0rMPQ_0,figure-only,chart_internal_sanity,"The Figure is supposed to show success rate, but the error bars go below 0, which should not be possible."
+3JfvvuPXsH_0,table-only,no_chart_data,"The PointRecon proposed method is said to be an 'online' method, but a latency of 618 ms per frame can't be considered online"
+324fOKW1wO_0,table-text,no_chart_data,The text in the abstract claims improvements over the baseline that can't be validated with Table 1
+2orBSi7pvi_0,table-caption,no_chart_data,"The caption of the table mentions results for MG-TSD, but the Table does not show results for that method"
+1eI236MqEA_0,figure-only,no_chart_data,The area for M_1 and M_2 in Figure 3 (b) does not match the areas for V1 and V2 and it seems the color is inverted
+0zZEbHLTwf_0,figure-only,no_chart_data,"The figure should claim that DeepFDM trains to a low error in less epochs, but the initialization is different, making the comparison unfair"
+0jmFRA64Vw_0,figure-only,numeric_chart_vs_table_or_text,The results in the table part of the Figure do not match the lower row of the sub-plots
+0Xc6o1HKXD_0,equation-text,no_chart_data,"In the text, K is specified as the number of classes, but in the Equation (6), it is the number of Top-K regions"
+0JwxMqKGxa_0,figure-only,no_chart_data,"The second sub-plot shows Neural Network training and Machine Learning to be separate, but Neural Networks are a sub-group of Machine Learning"
+09TI1yUo9K_0,table-table,no_chart_data,"Table 1 and Table 2 should compare the proposed method with baselines for two different datasets, but the baselines for comparison are not kept consistent"
