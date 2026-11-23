@@ -1,0 +1,172 @@
+{
+  "manifest": "data/datikz_pgf/test_v2/manifest.jsonl",
+  "readings": "outputs/readings/lora_qwen4b_r16_real_hr_hfbnb4_datikz_hr_test_n9.jsonl",
+  "subset": null,
+  "oracle": false,
+  "model": "outputs/lora/qwen4b_r16_real_hr/merged",
+  "seconds_per_chart": 6.907931104356621,
+  "n_charts": 987,
+  "n_checks": 22852,
+  "tau_table": 0.05,
+  "tau_claim": 0.03,
+  "summary": {
+    "table": {
+      "no_error_passed": 0.469,
+      "false_alarm": 0.531,
+      "caught_by_kind": {
+        "decimal": 0.889,
+        "dup_series": 0.935,
+        "rank_flip": 0.926,
+        "stale": 0.697,
+        "swap": 0.912,
+        "value": 0.75
+      },
+      "caught_macro": 0.851,
+      "balanced": 0.66,
+      "n_no_error": 1069,
+      "n_error": 9991
+    },
+    "claim": {
+      "no_error_passed": 0.741,
+      "false_alarm": 0.259,
+      "caught_by_kind": {
+        "above": 0.876,
+        "above_at": 0.736,
+        "max": 0.817,
+        "trend": 0.81,
+        "value": 0.821
+      },
+      "caught_macro": 0.812,
+      "balanced": 0.776,
+      "n_no_error": 5900,
+      "n_error": 5892
+    }
+  },
+  "by_kind": {
+    "claim/above/match": {
+      "n": 355,
+      "ok": 0.845,
+      "not_sure": 0.087
+    },
+    "claim/above/mismatch": {
+      "n": 355,
+      "ok": 0.876,
+      "not_sure": 0.087
+    },
+    "claim/above_at/match": {
+      "n": 1528,
+      "ok": 0.773,
+      "not_sure": 0.181
+    },
+    "claim/above_at/mismatch": {
+      "n": 1528,
+      "ok": 0.736,
+      "not_sure": 0.181
+    },
+    "claim/max/match": {
+      "n": 1108,
+      "ok": 0.83,
+      "not_sure": 0.129
+    },
+    "claim/max/mismatch": {
+      "n": 1101,
+      "ok": 0.817,
+      "not_sure": 0.152
+    },
+    "claim/trend/match": {
+      "n": 895,
+      "ok": 0.81,
+      "not_sure": 0.163
+    },
+    "claim/trend/mismatch": {
+      "n": 895,
+      "ok": 0.81,
+      "not_sure": 0.163
+    },
+    "claim/value/0.05/mismatch": {
+      "n": 695,
+      "ok": 0.823,
+      "not_sure": 0.134
+    },
+    "claim/value/0.1/mismatch": {
+      "n": 642,
+      "ok": 0.815,
+      "not_sure": 0.164
+    },
+    "claim/value/0.25/mismatch": {
+      "n": 676,
+      "ok": 0.824,
+      "not_sure": 0.175
+    },
+    "claim/value/match": {
+      "n": 2014,
+      "ok": 0.619,
+      "not_sure": 0.157
+    },
+    "table/decimal/mismatch": {
+      "n": 987,
+      "ok": 0.889,
+      "not_sure": 0.086
+    },
+    "table/dup_series/mismatch": {
+      "n": 550,
+      "ok": 0.935,
+      "not_sure": 0.056
+    },
+    "table/match/match": {
+      "n": 987,
+      "ok": 0.476,
+      "not_sure": 0.096
+    },
+    "table/rank_flip/mismatch": {
+      "n": 639,
+      "ok": 0.926,
+      "not_sure": 0.056
+    },
+    "table/rescaled/match": {
+      "n": 82,
+      "ok": 0.378,
+      "not_sure": 0.049
+    },
+    "table/stale/0.02/mismatch": {
+      "n": 987,
+      "ok": 0.512,
+      "not_sure": 0.094
+    },
+    "table/stale/0.05/mismatch": {
+      "n": 987,
+      "ok": 0.881,
+      "not_sure": 0.079
+    },
+    "table/swap/mismatch": {
+      "n": 906,
+      "ok": 0.912,
+      "not_sure": 0.082
+    },
+    "table/value/0.02/mismatch": {
+      "n": 987,
+      "ok": 0.428,
+      "not_sure": 0.096
+    },
+    "table/value/0.05/mismatch": {
+      "n": 987,
+      "ok": 0.664,
+      "not_sure": 0.091
+    },
+    "table/value/0.1/mismatch": {
+      "n": 987,
+      "ok": 0.882,
+      "not_sure": 0.09
+    },
+    "table/value/0.25/mismatch": {
+      "n": 987,
+      "ok": 0.889,
+      "not_sure": 0.084
+    },
+    "table/value/0.5/mismatch": {
+      "n": 987,
+      "ok": 0.886,
+      "not_sure": 0.089
+    }
+  }
+}
