@@ -29,7 +29,7 @@ def gpu_memory_used_gb():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--reader", required=True, choices=["deplot", "unichart", "chartgemma", "qwen", "qwen-hf", "simulated"])
+    ap.add_argument("--reader", required=True, choices=["deplot", "unichart", "chartgemma", "qwen", "qwen-hf", "claude", "openai", "gemini", "simulated"])
     ap.add_argument("--model", default=None, help="Hugging Face id or local path")
     ap.add_argument("--manifest", required=True, nargs="+", help="one or more manifests (model is loaded once)")
     ap.add_argument("--root", default=None, help="folder the image paths are relative to (default: manifest/../..)")
@@ -42,6 +42,9 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-side", type=int, default=None, help="shrink images to this many pixels (speed test)")
     ap.add_argument("--quantization", default=None, help="vLLM quantization, e.g. fp8")
+    ap.add_argument("--effort", default=None, help="claude only: low / medium / high / xhigh / max")
+    ap.add_argument("--detail", default=None, help="openai only: low / high / original / auto")
+    ap.add_argument("--workers", type=int, default=None, help="API readers: requests sent in parallel")
     args = ap.parse_args()
 
     if len(args.manifest) != len(args.out):
@@ -71,12 +74,16 @@ def main():
         kw["max_side"] = args.max_side
     if args.quantization:
         kw["quantization"] = args.quantization
+    for k in ("effort", "detail", "workers"):
+        if getattr(args, k) is not None:
+            kw[k] = getattr(args, k)
     t0 = time.time()
     reader = get_reader(args.reader, **kw)
     print(f"model loaded in {time.time() - t0:.0f}s: {reader.name}")
 
     peak_gb = gpu_memory_used_gb()
-    extra = {"task": args.task} if args.reader.startswith("qwen") else {}
+    api = args.reader in ("claude", "openai", "gemini")
+    extra = {"task": args.task} if args.reader.startswith("qwen") or api else {}
     for root, out, todo in jobs:
         print(f"== {out}")
         with out.open("a") as f:
@@ -91,12 +98,16 @@ def main():
                 mem = gpu_memory_used_gb()
                 if mem is not None:
                     peak_gb = max(peak_gb or 0, mem)
-                for r, outs in zip(batch, texts):
+                for r, p, outs in zip(batch, paths, texts):
+                    if outs is None:  # API call failed after retries: leave it out, a rerun tries again
+                        continue
+                    usage = getattr(reader, "usage", {}).get(p)
                     f.write(json.dumps({"id": r["id"], "reader": args.reader, "model": reader.name,
                                         "task": args.task, "n": args.n, "temperature": args.temperature,
                                         "max_side": args.max_side, "quantization": args.quantization,
                                         "seconds_per_chart": round(per_chart, 3),
                                         "gpu_gb": None if peak_gb is None else round(peak_gb, 2),
+                                        **({"usage": usage} if usage else {}),
                                         "outputs": outs}) + "\n")
                 f.flush()
                 print(f"{start + len(batch)}/{len(todo)}  {per_chart:.2f}s per chart", flush=True)
