@@ -1,0 +1,369 @@
+{
+  "manifest": "data/datikz_pgf/test_hr/manifest.jsonl",
+  "n_charts": 987,
+  "sweep": [
+    {
+      "sigma": 0.0,
+      "f1": 0.9582504970178927,
+      "f1_fixed_5pct": 0.8767416934619507,
+      "false_alarm": 0.0,
+      "recall": 0.9198473282442748,
+      "taus": [
+        0.02
+      ],
+      "recall_by_size": {
+        "0.02": 0.575,
+        "0.05": 0.926,
+        "0.1": 0.985,
+        "0.25": 0.986,
+        "0.5": 1.0,
+        "null": 1.0
+      },
+      "recall_by_kind": {
+        "decimal": 1.0,
+        "swap": 1.0,
+        "value": 0.883
+      },
+      "false_alarm_by_kind": {
+        "match": 0.0,
+        "rescaled": 0.0
+      }
+    },
+    {
+      "sigma": 0.01,
+      "f1": 0.9192213710870979,
+      "f1_fixed_5pct": 0.8775196397780476,
+      "false_alarm": 0.032829373650108,
+      "recall": 0.8751908396946565,
+      "taus": [
+        0.03,
+        0.03,
+        0.03,
+        0.03,
+        0.03
+      ]
+    },
+    {
+      "sigma": 0.02,
+      "f1": 0.8256350656395874,
+      "f1_fixed_5pct": 0.8403063143524143,
+      "false_alarm": 0.06436285097192225,
+      "recall": 0.7438931297709923,
+      "taus": [
+        0.08,
+        0.08,
+        0.05,
+        0.05,
+        0.08
+      ]
+    },
+    {
+      "sigma": 0.03,
+      "f1": 0.7988843498200392,
+      "f1_fixed_5pct": 0.7322422098476913,
+      "false_alarm": 0.07775377969762418,
+      "recall": 0.7114503816793893,
+      "taus": [
+        0.1,
+        0.08,
+        0.08,
+        0.08,
+        0.08
+      ]
+    },
+    {
+      "sigma": 0.05,
+      "f1": 0.7267382490973897,
+      "f1_fixed_5pct": 0.6985196265332683,
+      "false_alarm": 0.03369330453563715,
+      "recall": 0.5877862595419847,
+      "taus": [
+        0.15,
+        0.15,
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    {
+      "sigma": 0.08,
+      "f1": 0.6999684946882002,
+      "f1_fixed_5pct": 0.6936712560716752,
+      "false_alarm": 0.5347732181425486,
+      "recall": 0.7927480916030535,
+      "taus": [
+        0.15,
+        0.15,
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    {
+      "sigma": 0.1,
+      "f1": 0.6921477592770807,
+      "f1_fixed_5pct": 0.6939536252013505,
+      "false_alarm": 0.8086393088552916,
+      "recall": 0.9076335877862596,
+      "taus": [
+        0.1,
+        0.15,
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    {
+      "sigma": 0.15,
+      "f1": 0.6917602862328698,
+      "f1_fixed_5pct": 0.6930933210303973,
+      "false_alarm": 0.9555075593952485,
+      "recall": 0.9751908396946565,
+      "taus": [
+        0.15,
+        0.15,
+        0.15,
+        0.15,
+        0.1
+      ]
+    }
+  ],
+  "model": {
+    "params": {
+      "tau": 0.02,
+      "k": 0.0,
+      "s_max": null
+    },
+    "f1": 0.7933333333333333,
+    "readings": "outputs/readings/lora_qwen4b_r16_real_hr_datikz_hr_test_n9.jsonl"
+  },
+  "breakdown": {
+    "false_alarm/reading": 276,
+    "missed/checker_or_benchmark": 9,
+    "missed/reading": 5,
+    "not_sure/checker_or_benchmark": 3,
+    "not_sure/reading": 31
+  },
+  "examples": {
+    "reading": [
+      {
+        "id": "arxiv_datikz_00012_134161",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00010_109518",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00009_094923",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00012_126480",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00006_071829",
+        "label": "mismatch",
+        "model": "not_sure",
+        "oracle": "mismatch",
+        "kind": "value",
+        "size": 0.1
+      },
+      {
+        "id": "arxiv_datikz_00005_061624",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00008_090611",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00013_141207",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00011_121791",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00011_125044",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00009_094357",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00011_123728",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00005_052768",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00006_064191",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      },
+      {
+        "id": "arxiv_datikz_00005_058558",
+        "label": "match",
+        "model": "mismatch",
+        "oracle": "match",
+        "kind": "match",
+        "size": null
+      }
+    ],
+    "checker_or_benchmark": [
+      {
+        "id": "arxiv_datikz_00011_123599",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00005_061731",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00005_054326",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00005_054331",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00007_076797",
+        "label": "mismatch",
+        "model": "not_sure",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00010_112916",
+        "label": "mismatch",
+        "model": "not_sure",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00008_091326",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.05
+      },
+      {
+        "id": "arxiv_datikz_00011_123093",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00013_136692",
+        "label": "mismatch",
+        "model": "not_sure",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00006_069544",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00010_107560",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      },
+      {
+        "id": "arxiv_datikz_00008_089657",
+        "label": "mismatch",
+        "model": "match",
+        "oracle": "match",
+        "kind": "value",
+        "size": 0.02
+      }
+    ]
+  }
+}
