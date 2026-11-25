@@ -16,3 +16,13 @@ gpu_py src/run_reader.py --reader qwen   --manifest $M --limit 20 --task judge -
 cpu_py src/evaluate.py --manifest $M --readings outputs/readings/smoke_qwen.jsonl
 cpu_py src/evaluate.py --manifest $M --readings outputs/readings/smoke_deplot.jsonl
 cpu_py src/evaluate.py --manifest $M --readings outputs/readings/smoke_b0.jsonl
+
+gpu_py src/run_agent_pilot.py \
+  --manifest "$M" \
+  --reader qwen \
+  --model Qwen/Qwen3-VL-4B-Instruct \
+  --limit 30 \
+  --n-initial 3 \
+  --n-retry 2 \
+  --min-side 800 \
+  --out "outputs/results/agent_qwen_unseen_${SLURM_JOB_ID}.jsonl"
